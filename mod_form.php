@@ -46,10 +46,18 @@ class mod_gwpayments_mod_form extends moodleform_mod {
      * Form definition.
      */
     protected function definition() {
-        global $CFG, $COURSE;
+        global $CFG, $DB, $COURSE;
         $mform = $this->_form;
 
         $config = get_config('gwpayments');
+
+
+
+//	$advoptions = (array) unserialize_array($DB->advoptions);
+
+
+//echo serialize($DB);
+//die;
 
         // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -62,7 +70,10 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
+
         $this->standard_intro_elements();
+
+        $mform->addElement('advcheckbox', 'printintro', get_string('printintro', 'page'), 0);
 
         // -------------------------------------------------------
         $mform->addElement('header', 'content', get_string('contentheader', 'mod_gwpayments'));
@@ -113,6 +124,8 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addHelpButton('disablepaymentonmisconfig', 'disablepaymentonmisconfig', 'mod_gwpayments');
 
         $mform->setExpanded('content');
+
+
 
         // -------------------------------------------------------
         $this->standard_coursemodule_elements();
@@ -173,6 +186,12 @@ class mod_gwpayments_mod_form extends moodleform_mod {
      * @param array $defaultvalues passed by reference
      */
     public function data_preprocessing(&$defaultvalues) {
+        if (!empty($defaultvalues['advoptions'])) {
+            $advoptions = (array) unserialize_array($defaultvalues['advoptions']);
+            if (isset($advoptions['printintro'])) {
+                $defaultvalues['printintro'] = $advoptions['printintro'];
+            }
+        }
     }
 
     /**

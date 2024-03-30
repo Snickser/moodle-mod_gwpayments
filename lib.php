@@ -144,6 +144,11 @@ function gwpayments_update_instance($data, $mform) {
 
     $data->timemodified = time();
     $data->id           = $data->instance;
+
+    $advoptions = array();
+    $advoptions['printintro'] = $data->printintro;
+    $data->advoptions = serialize($advoptions);
+
     $DB->update_record('gwpayments', $data);
 
     return true;
