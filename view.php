@@ -35,6 +35,8 @@ $referer = optional_param('referer', null, PARAM_URL);
 list($course, $cm) = get_course_and_cm_from_cmid($id, 'gwpayments');
 $gwpayment = $DB->get_record('gwpayments', array('id' => $cm->instance), '*', MUST_EXIST);
 
+$advoptions = empty($gwpayment->advoptions) ? [] : (array) unserialize_array($gwpayment->advoptions);
+
 $PAGE->set_url('/mod/gwpayments/view.php', array('id' => $cm->id));
 
 require_course_login($course, true, $cm);
@@ -48,6 +50,7 @@ $params = array(
     'context' => $context,
     'objectid' => $gwpayment->id
 );
+
 
 $event = \mod_gwpayments\event\course_module_viewed::create($params);
 $event->add_record_snapshot('course_modules', $cm);
@@ -87,6 +90,11 @@ if (isguestuser()) {
     if (has_capability('mod/gwpayments:viewpayments', $context) || is_siteadmin()) {
         $table = new \mod_gwpayments\local\payments\table($context);
         $table->define_baseurl($PAGE->url);
+
+if(!$advoptions['printintro']){
+    $activityheader['description'] = '';
+    $PAGE->activityheader->set_attrs($activityheader);
+}
 
         echo $OUTPUT->header();
         echo $table->render(25);
