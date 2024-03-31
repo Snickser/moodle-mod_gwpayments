@@ -240,6 +240,10 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $available = true;
     }
 
+if(is_siteadmin()){
+    $noviewlink = 0;
+}
+
     // We first must set availability/visibility before setting dynamic content (as this changes state)!
     $modinfo->set_user_visible($uservisible);
     $modinfo->set_available($available);

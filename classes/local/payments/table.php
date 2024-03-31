@@ -84,11 +84,12 @@ class table extends \table_sql {
      * @param bool $useinitialsbar
      */
     public function render($pagesize, $useinitialsbar = true) {
-        $columns = array('fullname', 'cost', 'timecreated', 'timeexpire', 'status');
+        $columns = array('fullname', 'cost', 'timecreated', 'timemodified', 'timeexpire', 'status');
         $headers = array(
             get_string('fullname'),
             get_string('amount', 'mod_gwpayments'),
             get_string('timecreated', 'mod_gwpayments'),
+            get_string('timemodified', 'mod_gwpayments'),
             get_string('timeexpire', 'mod_gwpayments'),
             get_string('status', 'mod_gwpayments'),
         );
@@ -151,6 +152,7 @@ class table extends \table_sql {
      * @return string time string
      */
     public function col_timecreated($row) {
+//	$data = $row->timemodified ? $row->timemodified : $data = $row->timecreated;
         return userdate($row->timecreated, get_string('strftimedatetime', 'langconfig'));
     }
 
@@ -165,6 +167,20 @@ class table extends \table_sql {
             return  '-';
         } else {
             return userdate($row->timeexpire, get_string('strftimedatetime', 'langconfig'));
+        }
+    }
+
+    /**
+     * Render visual representation of the 'timeexpire' column for use in the table
+     *
+     * @param \stdClass $row
+     * @return string time string
+     */
+    public function col_timemodified($row) {
+        if (empty($row->timemodified)) {
+            return  '-';
+        } else {
+            return userdate($row->timemodified, get_string('strftimedatetime', 'langconfig'));
         }
     }
 
