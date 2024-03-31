@@ -30,6 +30,8 @@
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot.'/mod/page/locallib.php');
+require_once($CFG->libdir.'/filelib.php');
 
 /**
  * gwpayments configuration form
@@ -51,16 +53,9 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
         $config = get_config('gwpayments');
 
-
-
-//	$advoptions = (array) unserialize_array($DB->advoptions);
-
-
-//echo serialize($DB);
-//die;
-
         // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
+
         $mform->addElement('text', 'name', get_string('name'), array('size' => '48'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -70,13 +65,14 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-
         $this->standard_intro_elements();
 
         $mform->addElement('advcheckbox', 'printintro', get_string('printintro', 'page'), 0);
 
         // -------------------------------------------------------
         $mform->addElement('header', 'content', get_string('contentheader', 'mod_gwpayments'));
+
+//        $mform->addElement('textarea', 'page', get_string('content'), ['rows' => "10", 'cols' => "10"]);
 
         $mform->addElement('float', 'cost', get_string('cost', 'mod_gwpayments'));
 //        $mform->setType('cost', PARAM_RAW);
@@ -186,12 +182,14 @@ class mod_gwpayments_mod_form extends moodleform_mod {
      * @param array $defaultvalues passed by reference
      */
     public function data_preprocessing(&$defaultvalues) {
+/*
         if (!empty($defaultvalues['advoptions'])) {
             $advoptions = (array) unserialize_array($defaultvalues['advoptions']);
             if (isset($advoptions['printintro'])) {
                 $defaultvalues['printintro'] = $advoptions['printintro'];
             }
         }
+*/
     }
 
     /**
