@@ -144,6 +144,17 @@ function gwpayments_update_instance($data, $mform) {
 
     $data->timemodified = time();
     $data->id           = $data->instance;
+
+//    $advoptions = array();
+//    $advoptions['printintro'] = $data->printintro;
+//    $data->advoptions = serialize($advoptions);
+
+//    $data->page         = $data->page['text'];
+//    $data->contentformat = $data->page['format'];
+
+//echo serialize($data);
+//die;
+
     $DB->update_record('gwpayments', $data);
 
     return true;
@@ -192,6 +203,10 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $studentdisplayonpayments = (bool)$instance->studentdisplayonpayments;
     $disablepaymentonmisconfig = (bool)$instance->disablepaymentonmisconfig;
 
+
+//echo serialize( $modinfo->context );
+//die;
+
     $notifications = [];
     $canpaymentbemade = \mod_gwpayments\local\helper::can_payment_be_made($modinfo, $notifications);
 
@@ -200,7 +215,9 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $available = true;
     $noviewlink = false;
     $injectpaymentbutton = false;
-    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && !is_siteadmin()) {
+
+//    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && !is_siteadmin()) {
+    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) ) {
         // For those that can submit gwpayments.
         $noviewlink = !$studentdisplayonpayments;
         $userdata = $DB->get_record_sql('SELECT * FROM {gwpayments_userdata}
@@ -218,7 +235,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             $available = $studentdisplayonpayments;
         }
     } else {
-        // For eveyone else.
+        // For everyone else.
         $uservisible = true;
         $available = true;
     }
@@ -255,7 +272,11 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             $data->hasnotifications = true;
             $data->notifications = [get_string('err:payment:misconfiguration', 'mod_gwpayments')];
         }
-        $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+
+	if(!$instance->studentdisplayonpayments){
+	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	}
+
     }
     if (!empty($notifications) && (has_capability('mod/gwpayments:addinstance', $modinfo->context) || is_siteadmin())) {
         $injectedcontent = html_writer::div(implode('<br/>', $notifications), 'alert alert-warning');
