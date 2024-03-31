@@ -96,6 +96,10 @@ if (isguestuser()) {
 
 } else {
 
+    $renderer = $PAGE->get_renderer('mod_gwpayments');
+
+    $pd = $renderer->get_paymentdetails($context, $USER->id);
+
         $data = new stdClass();
         $data->cost = $gwpayment->cost;
         $data->localisedcost = \core_payment\helper::get_cost_as_string($gwpayment->cost, $gwpayment->currency);
@@ -108,15 +112,7 @@ if (isguestuser()) {
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = false;
-	$data->haspayments = 1;
-
-
-    $renderer = $PAGE->get_renderer('mod_gwpayments');
-
-
-$paymentdetails = $renderer->get_paymentdetails($context, $USER->id);
-//echo serialize($aaa);
-//die;
+	$data->haspayments = $pd->haspayments;
 
 
     // We can only see the overview when we have the correct capabilities.
@@ -133,7 +129,7 @@ $paymentdetails = $renderer->get_paymentdetails($context, $USER->id);
         // Display state.
         echo $OUTPUT->header();
 
-if($paymentdetails->haspayments){
+if($pd->haspayments){
         echo $renderer->paymentdetails($context, $USER->id);
 } else {
         echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);

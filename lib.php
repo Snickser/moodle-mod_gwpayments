@@ -259,7 +259,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;
-        $data->localisedcost = format_float($instance->cost, 2, true);
+        $data->localisedcost = \core_payment\helper::get_cost_as_string($instance->cost, $instance->currency);
         $data->locale = $USER->lang;
         $data->component = 'mod_gwpayments';
         $data->paymentarea = 'unlockfee';
