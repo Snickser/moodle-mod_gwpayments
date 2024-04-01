@@ -1,4 +1,12 @@
+Changes from original:
+-----
++ moodle 4.x only
++ added activity duration
++ change logo
++ add page view in instance parameters
++ admin always sees payment buttons
 
+---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
 
 The Sebsoft gATEWAY PaymentS course module offers a way to unlock other resources in a course
