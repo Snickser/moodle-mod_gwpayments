@@ -136,7 +136,7 @@ if (isguestuser()) {
 
 
 if($pd->haspayments && $pd->payments[0]->timeexpire > time()){
-	// show table
+	// show user table
         echo $renderer->paymentdetails($context, $USER->id);
 } else {
 	// show button

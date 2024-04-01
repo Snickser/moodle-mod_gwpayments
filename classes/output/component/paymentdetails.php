@@ -92,7 +92,7 @@ class paymentdetails implements renderable, templatable {
                 'courseid' => $this->context->instanceid,
             ];
         } else if ($this->context instanceof \context_module) {
-            $sql = 'SELECT DISTINCT ud.id, ud.cost, ud.currency, ud.timeexpire, ud.timecreated,
+            $sql = 'SELECT DISTINCT ud.id, ud.cost, ud.currency, ud.timeexpire, ud.timecreated, ud.timemodified,
                     p.id as paymentid, p.paymentarea
                     FROM {gwpayments} gwp
                     JOIN {payments} p ON (p.itemid = gwp.id AND p.component = :component)
