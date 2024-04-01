@@ -5,7 +5,7 @@ Changes from original:
 + display enrol duration
 + change logo
 + add page view in instance parameters
-+ admin always sees payment buttons
++ admin always sees payment button
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
