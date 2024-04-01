@@ -8,6 +8,8 @@ Changes from original:
 + admin always sees payment button
 + fix userid link
 
+
+
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
 
