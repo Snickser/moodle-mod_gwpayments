@@ -1,3 +1,9 @@
+Changes from original:
+-----
++ add expiration period
++ change logo
++ add view on page
+
 
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
 
