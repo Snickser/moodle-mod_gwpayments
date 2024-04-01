@@ -139,6 +139,7 @@ class service_provider implements \core_payment\local\callback\service_provider 
             $DB->insert_record('gwpayments_userdata', $userdata);
         } else {
             $userdata->timemodified = time();
+	    $userdata->cost = $data->amount;
             $DB->update_record('gwpayments_userdata', $userdata);
         }
 
