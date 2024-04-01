@@ -1,8 +1,9 @@
 Changes from original:
 -----
-+ add expiration period
++ added activity duration
 + change logo
-+ add view on page
++ add page view in instance parameters
++ admin always sees payment buttons
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
