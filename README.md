@@ -13,7 +13,6 @@ Using core availability conditions, other course resources can be locked based o
 standard activity completion.
  This course module is considered "completed" when the fee has been paid.
 
------
 INSTALLATION
 
 - Copy the gwpayments folder to your /mod directory.
