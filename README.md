@@ -4,7 +4,7 @@ Changes from original:
 + change logo
 + add view on page
 
-
+---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
 
 The Sebsoft gATEWAY PaymentS course module offers a way to unlock other resources in a course
