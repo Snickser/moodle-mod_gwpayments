@@ -1,7 +1,8 @@
 Changes from original:
 -----
-+ moodle 4.x only
++ moodle 4.x
 + added activity duration
++ display enrol duration
 + change logo
 + add page view in instance parameters
 + admin always sees payment buttons

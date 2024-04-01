@@ -260,6 +260,10 @@ if(is_siteadmin()){
             'description' => $modinfo->get_formatted_name(),
             'successurl' => \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $instance->id)->out(false),
         ];
+        $enrolperiod = get_duration_desc($instance->costduration);
+        $data->costduration = $enrolperiod[0];
+        $data->costduration_desc = $enrolperiod[1];
+ 
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;
@@ -348,4 +352,25 @@ function mod_gwpayments_get_completion_active_rule_descriptions($cm) {
         }
     }
     return $descriptions;
+}
+
+function get_duration_desc($enrolperiod = 0){
+ $enrolperiod_desc = '';
+ if($enrolperiod){
+    if( $enrolperiod > 0 ){
+        if($enrolperiod>=86400){
+            $enrolperiod_desc = get_string('days');
+            $enrolperiod = round($enrolperiod/86400);
+        } else if($enrolperiod>=3600) {
+            $enrolperiod_desc = get_string('hours');
+            $enrolperiod = round($enrolperiod/3600);
+        } else if($enrolperiod>=60) {
+            $enrolperiod_desc = get_string('minutes');
+            $enrolperiod = round($enrolperiod/60);
+        } else {
+            $enrolperiod_desc = get_string('seconds');
+        }
+    }
+ }
+ return array($enrolperiod, $enrolperiod_desc);
 }

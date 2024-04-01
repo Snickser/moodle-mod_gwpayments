@@ -105,8 +105,12 @@ if (isguestuser()) {
 //echo serialize($cm);
 //die;
 
+    $enrolperiod = get_duration_desc($gwpayment->costduration);
+
         $data = new stdClass();
         $data->cost = $gwpayment->cost;
+        $data->costduration = $enrolperiod[0];
+        $data->costduration_desc = $enrolperiod[1];
         $data->localisedcost = \core_payment\helper::get_cost_as_string($gwpayment->cost, $gwpayment->currency);
         $data->instanceid = $gwpayment->id;
         $data->description = $gwpayment->name;
