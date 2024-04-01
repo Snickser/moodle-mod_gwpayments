@@ -39,6 +39,8 @@
     Example context (json):
     {
         "cost": "$108.50",
+        "costduration": "600",
+        "costdurationdesc": "days",
         "instanceid": 11,
         "component": "mod_gwpayments",
         "paymentarea": "fee",
@@ -68,6 +70,10 @@
     <div class="mod_gwpayments-paymentoption">
         <p>{{# str }} paymentrequired, mod_gwpayments {{/ str}}</p>
         <p class="mod-gwpayments-basecost"><b>{{#str}}cost{{/str}}: {{localisedcost}}</b></p>
+{{#costduration}}
+<p class="mod-gwpayments-basecostduration"><b>
+{{#str}}enrolperiod, enrol{{/str}} ({{costduration_desc}}): {{costduration}}
+</b></p>{{/costduration}}
         <button
             class="btn btn-secondary"
             type="button"
