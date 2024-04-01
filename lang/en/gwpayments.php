@@ -88,7 +88,7 @@ $string['studentdisplayonpayments_help'] = 'Allows the student to access the mod
 The view page only displays the information related to the current user\'s payment(s).';
 $string['task:defaulttasks'] = 'Default tasks.';
 $string['timecreated'] = 'Time paid';
-$string['timemodified'] = 'Time update';
+$string['timemodified'] = 'Update time';
 $string['timeexpire'] = 'Expires';
 $string['vat'] = 'VAT';
 $string['vat_help'] = 'VAT percentage of course cost (note: course cost is including VAT).';
