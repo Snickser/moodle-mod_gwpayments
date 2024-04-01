@@ -105,27 +105,15 @@ class table extends \table_sql {
             $usql = \core_user\fields::for_name()->get_sql('u', true, '', '', false);
             // REALLY, MOODLE? I need to write MORE code now? For this simple case you could have injected a SHORTCUT method.
             $fields = 'ud.*, ' . $usql->selects;
-            $from = '{gwpayments_userdata} ud ';
-            $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
+            $from = '{course_modules} cm ';
+            $from .= 'JOIN {gwpayments_userdata} ud ON ud.gwpaymentsid=cm.instance ';
             $from .= 'JOIN {user} u ON ud.userid = u.id ';
             $from .= $usql->joins;
             $params += $usql->params;
-        } else {
-            $ufields = get_all_user_name_fields(true, 'u');
-            $fields = 'ud.*, ' . $ufields;
-            $from = '{gwpayments_userdata} ud ';
-            $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
-            $from .= 'JOIN {user} u ON ud.userid = u.id ';
         }
 
-
         if ($this->context->contextlevel === CONTEXT_MODULE) {
-            $from .= 'JOIN {course_modules} cm ON (cm.course = gwp.course AND cm.id = :cmid)';
-            $params['cmid'] = $this->context->instanceid;
-//	    $where[] = "cm.id=".$this->context->instanceid;
-        } else if ($this->context->contextlevel === CONTEXT_COURSE) {
-            $where[] = 'gwp.course = :courseid';
-            $params['courseid'] = $this->context->instanceid;
+	    $where[] = "cm.id=".$this->context->instanceid;
         }
 
         if (empty($where)) {
