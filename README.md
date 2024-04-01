@@ -1,10 +1,11 @@
 Changes from original:
 -----
-+ moodle 4.x only
++ moodle 4.x
 + added activity duration
 + change logo
 + add page view in instance parameters
 + admin always sees payment buttons
++ display enrol duration
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
