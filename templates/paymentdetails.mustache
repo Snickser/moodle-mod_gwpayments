@@ -35,6 +35,7 @@
         "payments": [
                 {
                     "timecreated": 0,
+                    "timemodified": 0,
                     "expires": true,
                     "timeexpire": 0,
                     "strcost": "EUR 10.00"
@@ -55,7 +56,7 @@
         <tbody>
         {{#payments}}
             <tr>
-                <th>{{#userdate}}{{timecreated}}, {{#str}}strftimedatetime, langconfig{{/str}}{{/userdate}}</th>
+                <th>{{#userdate}}{{#timemodified}}{{timemodified}}{{/timemodified}}{{^timemodified}}{{timecreated}}{{/timemodified}}, {{#str}}strftimedatetime, langconfig{{/str}}{{/userdate}}</th>
                 <th>{{{strcost}}}</th>
                 <th>
                     {{#expires}}{{#userdate}}{{timeexpire}}, {{#str}}strftimedatetime, langconfig{{/str}}{{/userdate}}{{/expires}}
