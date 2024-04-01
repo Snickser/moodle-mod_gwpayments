@@ -118,9 +118,11 @@ class table extends \table_sql {
             $from .= 'JOIN {user} u ON ud.userid = u.id ';
         }
 
+
         if ($this->context->contextlevel === CONTEXT_MODULE) {
             $from .= 'JOIN {course_modules} cm ON (cm.course = gwp.course AND cm.id = :cmid)';
             $params['cmid'] = $this->context->instanceid;
+//	    $where[] = "cm.id=".$this->context->instanceid;
         } else if ($this->context->contextlevel === CONTEXT_COURSE) {
             $where[] = 'gwp.course = :courseid';
             $params['courseid'] = $this->context->instanceid;
@@ -131,8 +133,11 @@ class table extends \table_sql {
             $where[] = '1 = 1';
         }
 
+	$this->useridfield='userid';
+
         parent::set_sql($fields, $from, implode(' AND ', $where), $params);
         $this->out($pagesize, $useinitialsbar);
+
     }
 
     /**
