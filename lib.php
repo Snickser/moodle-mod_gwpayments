@@ -152,8 +152,8 @@ function gwpayments_update_instance($data, $mform) {
 //    $data->page         = $data->page['text'];
 //    $data->contentformat = $data->page['format'];
 
-//echo serialize($data);
-//die;
+echo serialize($data);
+die;
 
     $DB->update_record('gwpayments', $data);
 
@@ -353,6 +353,8 @@ function mod_gwpayments_get_completion_active_rule_descriptions($cm) {
     }
     return $descriptions;
 }
+
+
 
 function get_duration_desc($enrolperiod = 0){
  $enrolperiod_desc = '';

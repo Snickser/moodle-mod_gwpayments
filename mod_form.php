@@ -130,7 +130,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $completion = new completion_info($COURSE);
         if ($completion->is_enabled()) {
             $this->_form->setConstant('completion', COMPLETION_TRACKING_AUTOMATIC);
-            $this->_form->freeze('completion');
+//            $this->_form->freeze('completion');
         } else {
             $mform->addElement('static', 'completiondisabled', get_string('completiondisabled:label', 'mod_gwpayments'),
                     get_string('completiondisabled:warning', 'mod_gwpayments'));
