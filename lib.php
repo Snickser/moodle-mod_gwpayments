@@ -240,6 +240,10 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $available = true;
     }
 
+if(is_siteadmin()){
+    $noviewlink = 0;
+}
+
     // We first must set availability/visibility before setting dynamic content (as this changes state)!
     $modinfo->set_user_visible($uservisible);
     $modinfo->set_available($available);
@@ -259,7 +263,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;
-        $data->localisedcost = format_float($instance->cost, 2, true);
+        $data->localisedcost = \core_payment\helper::get_cost_as_string($instance->cost, $instance->currency);
         $data->locale = $USER->lang;
         $data->component = 'mod_gwpayments';
         $data->paymentarea = 'unlockfee';

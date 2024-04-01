@@ -51,7 +51,7 @@
     }
 
 }}
-<div class="mod_gwpayments_payment_region text-center">
+<br><div class="mod_gwpayments_payment_region text-center">
     {{#isguestuser}}
         <div class="mdl-align">
             <p>{{# str }} paymentrequired, mod_gwpayments {{/ str}}</p>
@@ -67,7 +67,7 @@
     {{/hasnotifications}}
     <div class="mod_gwpayments-paymentoption">
         <p>{{# str }} paymentrequired, mod_gwpayments {{/ str}}</p>
-        <p class="mod-gwpayments-basecost"><b>{{#str}}cost{{/str}}: {{currency}} {{localisedcost}}</b></p>
+        <p class="mod-gwpayments-basecost"><b>{{#str}}cost{{/str}}: {{localisedcost}}</b></p>
         <button
             class="btn btn-secondary"
             type="button"
