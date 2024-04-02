@@ -121,10 +121,8 @@ if (isguestuser()) {
         $data->hasnotifications = true;
 	$data->haspayments = $pd->haspayments;
 
-
 //echo serialize($data->successurl);
 //die;
-
 
     // We can only see the overview when we have the correct capabilities.
     if (has_capability('mod/gwpayments:viewpayments', $context) || is_siteadmin()) {
@@ -133,7 +131,7 @@ if (isguestuser()) {
 
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
-        echo $table->render(25);
+        echo $table->render(25, true, $gwpayment->showpaymentstable);
         echo $OUTPUT->footer();
 
     } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {

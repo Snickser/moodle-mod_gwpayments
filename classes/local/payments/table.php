@@ -83,7 +83,7 @@ class table extends \table_sql {
      * @param int $pagesize
      * @param bool $useinitialsbar
      */
-    public function render($pagesize, $useinitialsbar = true) {
+    public function render($pagesize, $useinitialsbar = true, $showamount = 1) {
         $columns = array('fullname', 'cost', 'timecreated', 'timemodified', 'timeexpire', 'status');
         $headers = array(
             get_string('fullname'),
@@ -91,8 +91,13 @@ class table extends \table_sql {
             get_string('timecreated', 'mod_gwpayments'),
             get_string('timemodified', 'mod_gwpayments'),
             get_string('timeexpire', 'mod_gwpayments'),
-            get_string('status', 'mod_gwpayments'),
+            get_string('status', 'mod_gwpayments')
         );
+
+if(!$showamount){
+    array_splice($columns, 1, 1);
+    array_splice($headers, 1, 1);
+}
 
         $this->define_columns($columns);
         $this->define_headers($headers);
