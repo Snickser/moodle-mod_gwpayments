@@ -203,8 +203,8 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $studentdisplayonpayments = (bool)$instance->studentdisplayonpayments;
     $disablepaymentonmisconfig = (bool)$instance->disablepaymentonmisconfig;
 
-
-//echo serialize( $modinfo->context );
+//$info = new \core_availability\info_module($modinfo);
+//echo serialize( $info );
 //die;
 
     $notifications = [];
@@ -263,7 +263,6 @@ if(is_siteadmin()){
         $enrolperiod = get_duration_desc($instance->costduration);
         $data->costduration = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
- 
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;
@@ -280,6 +279,9 @@ if(is_siteadmin()){
             $data->hasnotifications = true;
             $data->notifications = [get_string('err:payment:misconfiguration', 'mod_gwpayments')];
         }
+
+//echo serialize($data);
+//die;
 
 	if(!$instance->studentdisplayonpayments){
 	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);

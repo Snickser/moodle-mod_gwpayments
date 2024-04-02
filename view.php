@@ -102,8 +102,6 @@ if (isguestuser()) {
 
 //    $pd = $DB->get_record('gwpayments_userdata', array('gwpaymentsid' => $cm->instance, 'userid' => $USER->id), '*', MUST_EXIST);
 
-//echo serialize($cm);
-//die;
 
     $enrolperiod = get_duration_desc($gwpayment->costduration);
 
@@ -122,6 +120,10 @@ if (isguestuser()) {
         $data->disablepaymentbutton = false;
         $data->hasnotifications = true;
 	$data->haspayments = $pd->haspayments;
+
+
+//echo serialize($data->successurl);
+//die;
 
 
     // We can only see the overview when we have the correct capabilities.
