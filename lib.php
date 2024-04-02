@@ -203,16 +203,12 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $studentdisplayonpayments = (bool)$instance->studentdisplayonpayments;
     $disablepaymentonmisconfig = (bool)$instance->disablepaymentonmisconfig;
 
-//$info = new \core_availability\info_module($modinfo);
-//echo serialize( $info );
-//die;
-
     $notifications = [];
     $canpaymentbemade = \mod_gwpayments\local\helper::can_payment_be_made($modinfo, $notifications);
 
     // We're "complete" if there's a record and expiry limitations are not met.
     $uservisible = false;
-    $available = true;
+    $available = $modinfo->get_user_visible();
     $noviewlink = false;
     $injectpaymentbutton = false;
 
@@ -240,9 +236,9 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $available = true;
     }
 
-if(is_siteadmin()){
-    $noviewlink = 0;
-}
+    if(is_siteadmin()){
+	$noviewlink = 0;
+    }
 
     // We first must set availability/visibility before setting dynamic content (as this changes state)!
     $modinfo->set_user_visible($uservisible);
