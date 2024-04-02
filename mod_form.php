@@ -53,6 +53,9 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
         $config = get_config('gwpayments');
 
+//echo serialize($config);
+//die;
+
         // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
@@ -119,6 +122,10 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setDefault('disablepaymentonmisconfig', $config->disablepaymentonmisconfig);
         $mform->addHelpButton('disablepaymentonmisconfig', 'disablepaymentonmisconfig', 'mod_gwpayments');
 
+        $mform->addElement('advcheckbox', 'showpaymentstable',
+                get_string('showpaymentstable', 'mod_gwpayments'),
+                get_string('showpaymentstable', 'mod_gwpayments'));
+
         $mform->setExpanded('content');
 
 
@@ -130,7 +137,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $completion = new completion_info($COURSE);
         if ($completion->is_enabled()) {
             $this->_form->setConstant('completion', COMPLETION_TRACKING_AUTOMATIC);
-//            $this->_form->freeze('completion');
+            $this->_form->freeze('completion');
         } else {
             $mform->addElement('static', 'completiondisabled', get_string('completiondisabled:label', 'mod_gwpayments'),
                     get_string('completiondisabled:warning', 'mod_gwpayments'));
