@@ -83,7 +83,7 @@ class table extends \table_sql {
      * @param int $pagesize
      * @param bool $useinitialsbar
      */
-    public function render($pagesize, $useinitialsbar = true, $showamount = 1) {
+    public function render($pagesize, $useinitialsbar = true, $showamount = 1, $showall = 0) {
         $columns = array('fullname', 'cost', 'timecreated', 'timemodified', 'timeexpire', 'status');
         $headers = array(
             get_string('fullname'),
@@ -117,7 +117,7 @@ if(!$showamount){
             $params += $usql->params;
         }
 
-        if ($this->context->contextlevel === CONTEXT_MODULE) {
+        if ($this->context->contextlevel === CONTEXT_MODULE && !$showall) {
 	    $where[] = "cm.id=".$this->context->instanceid;
         }
 

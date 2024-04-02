@@ -106,20 +106,24 @@ if (isguestuser()) {
     $enrolperiod = get_duration_desc($gwpayment->costduration);
 
         $data = new stdClass();
+        $data->component = 'mod_gwpayments';
+        $data->paymentarea = 'unlockfee';
         $data->cost = $gwpayment->cost;
+        $data->description = $gwpayment->name;
+
+
         $data->costduration = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
         $data->localisedcost = \core_payment\helper::get_cost_as_string($gwpayment->cost, $gwpayment->currency);
         $data->instanceid = $gwpayment->id;
-        $data->description = $gwpayment->name;
-        $data->successurl = \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $gwpayment->id)->out(false);
+//        $data->successurl = \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $gwpayment->id)->out(false);
         $data->userid = $USER->id;
         $data->locale = $USER->lang;
-        $data->component = 'mod_gwpayments';
-        $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = true;
 	$data->haspayments = $pd->haspayments;
+
+
 
 //echo serialize($data->successurl);
 //die;
@@ -131,7 +135,7 @@ if (isguestuser()) {
 
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
-        echo $table->render(25, true, $gwpayment->showpaymentstable);
+        echo $table->render(25, true, $gwpayment->showpaymentstable, $gwpayment->showallcoursepayments);
         echo $OUTPUT->footer();
 
     } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {
