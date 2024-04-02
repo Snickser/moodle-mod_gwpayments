@@ -115,9 +115,9 @@ if(!$showamount){
             $from .= 'JOIN {user} u ON ud.userid = u.id ';
             $from .= $usql->joins;
             $params += $usql->params;
-        }
+//        }
 
-        if ($this->context->contextlevel === CONTEXT_MODULE && !$showall) {
+//        if ($this->context->contextlevel === CONTEXT_MODULE) {
 	    $where[] = "cm.id=".$this->context->instanceid;
         }
 

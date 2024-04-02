@@ -92,5 +92,5 @@ $string['timemodified'] = 'Update time';
 $string['timeexpire'] = 'Expires';
 $string['vat'] = 'VAT';
 $string['vat_help'] = 'VAT percentage of course cost (note: course cost is including VAT).';
-$string['showpaymentstable'] = 'Show amount in payments table';
+$string['showamount'] = 'Show amount in payments table';
 $string['showallcoursepayments'] = 'Show everyone who paid for the entire course';

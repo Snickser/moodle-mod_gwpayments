@@ -246,6 +246,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     if ($noviewlink) {
         $modinfo->set_no_view_link();
     }
+
     $injectedcontent = '';
     if ($injectpaymentbutton) {
         // Create the payment button.
@@ -278,7 +279,6 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
 
 //echo serialize($data);
 //die;
-
 	if(!$instance->studentdisplayonpayments){
 	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
 	}

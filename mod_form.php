@@ -122,9 +122,9 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setDefault('disablepaymentonmisconfig', $config->disablepaymentonmisconfig);
         $mform->addHelpButton('disablepaymentonmisconfig', 'disablepaymentonmisconfig', 'mod_gwpayments');
 
-        $mform->addElement('advcheckbox', 'showpaymentstable',
-                get_string('showpaymentstable', 'mod_gwpayments'),
-                get_string('showpaymentstable', 'mod_gwpayments'));
+        $mform->addElement('advcheckbox', 'showamount',
+                get_string('showamount', 'mod_gwpayments'),
+                get_string('showamount', 'mod_gwpayments'));
 
         $mform->addElement('advcheckbox', 'showallcoursepayments',
                 get_string('showallcoursepayments', 'mod_gwpayments'),
