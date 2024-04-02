@@ -152,8 +152,8 @@ function gwpayments_update_instance($data, $mform) {
 //    $data->page         = $data->page['text'];
 //    $data->contentformat = $data->page['format'];
 
-echo serialize($data);
-die;
+//echo serialize($data);
+//die;
 
     $DB->update_record('gwpayments', $data);
 
