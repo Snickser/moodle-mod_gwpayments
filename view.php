@@ -135,7 +135,7 @@ if (isguestuser()) {
 
         // Display state.
         echo $OUTPUT->header();
-	if($pd->haspayments && $pd->payments[0]->timeexpire > time()){
+	if($pd->haspayments && ($pd->payments[0]->timeexpire > time() || $pd->payments[0]->timeexpire == 0) ){
 	    // show user table
 	    echo $renderer->paymentdetails($context, $USER->id);
 	} else {
