@@ -78,10 +78,10 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 //        $mform->addElement('textarea', 'page', get_string('content'), ['rows' => "10", 'cols' => "10"]);
 
         $mform->addElement('float', 'cost', get_string('cost', 'mod_gwpayments'));
-//        $mform->setType('cost', PARAM_RAW);
+//        $mform->setType('cost', PARAM_FLOAT);
         $mform->addRule('cost', null, 'required', null, 'client');
 //        $mform->addRule('cost', null, 'numeric', null, 'client');
-        $mform->setDefault('cost', $config->cost);
+//        $mform->setDefault('cost', $config->cost);
         $mform->addHelpButton('cost', 'cost', 'mod_gwpayments');
 
         // This is used for expiry determination.
@@ -233,6 +233,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
         // Validating Entered gwpayments, we are looking for obvious problems only,
         // teachers are responsible for testing if it actually works.
+	if( $data['cost'] < 0.01 ) $errors['cost'] = get_string('mincosterror', 'mod_gwpayments');
 
         return $errors;
     }
