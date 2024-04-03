@@ -123,27 +123,29 @@ if (isguestuser()) {
 
     // We can only see the overview when we have the correct capabilities.
     if (has_capability('mod/gwpayments:viewpayments', $context) || is_siteadmin()) {
+
         $table = new \mod_gwpayments\local\payments\table($context);
         $table->define_baseurl($PAGE->url);
-
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
         echo $table->render(50, true, $gwpayment->showamount, $gwpayment->showallpayments);
         echo $OUTPUT->footer();
 
     } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {
+
         // Display state.
         echo $OUTPUT->header();
+	if($pd->haspayments && $pd->payments[0]->timeexpire > time()){
+	    // show user table
+	    echo $renderer->paymentdetails($context, $USER->id);
+	} else {
+	    // show button
+	    echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	}
+        echo $OUTPUT->footer();
 
-
-if($pd->haspayments && $pd->payments[0]->timeexpire > time()){
-	// show user table
-        echo $renderer->paymentdetails($context, $USER->id);
-} else {
-	// show button
-        echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
-}
-
+    } else {
+        echo $OUTPUT->header();
         echo $OUTPUT->footer();
     }
 }
