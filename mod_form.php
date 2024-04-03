@@ -126,9 +126,9 @@ class mod_gwpayments_mod_form extends moodleform_mod {
                 get_string('showamount', 'mod_gwpayments'),
                 get_string('showamount', 'mod_gwpayments'));
 
-        $mform->addElement('advcheckbox', 'showallcoursepayments',
-                get_string('showallcoursepayments', 'mod_gwpayments'),
-                get_string('showallcoursepayments', 'mod_gwpayments'));
+        $mform->addElement('advcheckbox', 'showallpayments',
+                get_string('showallpayments', 'mod_gwpayments'),
+                get_string('showallpayments', 'mod_gwpayments'));
 
         $mform->setExpanded('content');
 

@@ -128,7 +128,7 @@ if (isguestuser()) {
 
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
-        echo $table->render(2, true, $gwpayment->showpaymentstable, $gwpayment->showallcoursepayments);
+        echo $table->render(50, true, $gwpayment->showamount, $gwpayment->showallpayments);
         echo $OUTPUT->footer();
 
     } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {
