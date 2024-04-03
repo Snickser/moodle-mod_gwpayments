@@ -105,8 +105,23 @@ if(!$showamount){
         $where = [];
         $params = [];
 
-        // Generate SQL.
-        if (class_exists('\core_user\fields', true)) {
+    if($showall){
+
+        $usql = \core_user\fields::for_name()->get_sql('u', true, '', '', false);
+        // REALLY, MOODLE? I need to write MORE code now? For this simple case you could have injected a SHORTCUT method.
+        $fields = 'ud.*, ' . $usql->selects;
+        $from = '{gwpayments_userdata} ud ';
+        $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
+        $from .= 'JOIN {user} u ON ud.userid = u.id ';
+        $from .= $usql->joins;
+        $params += $usql->params;
+	if ($this->context->contextlevel === CONTEXT_MODULE) {
+            $from .= 'JOIN {course_modules} cm ON (cm.course = gwp.course AND cm.id = :cmid)';
+            $params['cmid'] = $this->context->instanceid;
+        }
+
+    } else {
+
             $usql = \core_user\fields::for_name()->get_sql('u', true, '', '', false);
             // REALLY, MOODLE? I need to write MORE code now? For this simple case you could have injected a SHORTCUT method.
             $fields = 'ud.*, ' . $usql->selects;
@@ -115,11 +130,10 @@ if(!$showamount){
             $from .= 'JOIN {user} u ON ud.userid = u.id ';
             $from .= $usql->joins;
             $params += $usql->params;
-//        }
-
-//        if ($this->context->contextlevel === CONTEXT_MODULE) {
 	    $where[] = "cm.id=".$this->context->instanceid;
-        }
+
+    }
+
 
         if (empty($where)) {
             // Prevent bugs.
