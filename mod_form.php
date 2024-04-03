@@ -77,7 +77,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
 //        $mform->addElement('textarea', 'page', get_string('content'), ['rows' => "10", 'cols' => "10"]);
 
-        $mform->addElement('float', 'cost', get_string('cost', 'mod_gwpayments'));
+        $mform->addElement('float', 'cost', get_string('cost', 'mod_gwpayments'), ['size' => 7]);
 //        $mform->setType('cost', PARAM_FLOAT);
         $mform->addRule('cost', null, 'required', null, 'client');
 //        $mform->addRule('cost', null, 'numeric', null, 'client');
