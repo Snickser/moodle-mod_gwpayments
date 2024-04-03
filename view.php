@@ -35,13 +35,9 @@ $referer = optional_param('referer', null, PARAM_URL);
 list($course, $cm) = get_course_and_cm_from_cmid($id, 'gwpayments');
 $gwpayment = $DB->get_record('gwpayments', array('id' => $cm->instance), '*', MUST_EXIST);
 
-//$advoptions = empty($gwpayment->advoptions) ? [] : (array) unserialize_array($gwpayment->advoptions);
-
 $PAGE->set_url('/mod/gwpayments/view.php', array('id' => $cm->id));
 
-
-
-require_login($course, true, $cm);
+require_course_login($course, true, $cm);
 
 
 $context = context_module::instance($cm->id);
@@ -102,27 +98,28 @@ if (isguestuser()) {
 
 //    $pd = $DB->get_record('gwpayments_userdata', array('gwpaymentsid' => $cm->instance, 'userid' => $USER->id), '*', MUST_EXIST);
 
-//echo serialize($cm);
-//die;
-
     $enrolperiod = get_duration_desc($gwpayment->costduration);
 
         $data = new stdClass();
+        $data->component = 'mod_gwpayments';
+        $data->paymentarea = 'unlockfee';
         $data->cost = $gwpayment->cost;
+        $data->description = $gwpayment->name;
+        $data->itemid = $cm->id;
+
         $data->costduration = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
         $data->localisedcost = \core_payment\helper::get_cost_as_string($gwpayment->cost, $gwpayment->currency);
         $data->instanceid = $gwpayment->id;
-        $data->description = $gwpayment->name;
         $data->successurl = \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $gwpayment->id)->out(false);
         $data->userid = $USER->id;
         $data->locale = $USER->lang;
-        $data->component = 'mod_gwpayments';
-        $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = true;
 	$data->haspayments = $pd->haspayments;
 
+//echo serialize($data->successurl);
+//die;
 
     // We can only see the overview when we have the correct capabilities.
     if (has_capability('mod/gwpayments:viewpayments', $context) || is_siteadmin()) {
@@ -131,7 +128,7 @@ if (isguestuser()) {
 
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
-        echo $table->render(25);
+        echo $table->render(50, true, $gwpayment->showamount, $gwpayment->showallpayments);
         echo $OUTPUT->footer();
 
     } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {

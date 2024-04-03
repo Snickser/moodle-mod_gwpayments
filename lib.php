@@ -203,16 +203,12 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $studentdisplayonpayments = (bool)$instance->studentdisplayonpayments;
     $disablepaymentonmisconfig = (bool)$instance->disablepaymentonmisconfig;
 
-
-//echo serialize( $modinfo->context );
-//die;
-
     $notifications = [];
     $canpaymentbemade = \mod_gwpayments\local\helper::can_payment_be_made($modinfo, $notifications);
 
     // We're "complete" if there's a record and expiry limitations are not met.
     $uservisible = false;
-    $available = true;
+    $available = $modinfo->get_user_visible();
     $noviewlink = false;
     $injectpaymentbutton = false;
 
@@ -240,9 +236,9 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $available = true;
     }
 
-if(is_siteadmin()){
-    $noviewlink = 0;
-}
+    if(is_siteadmin()){
+	$noviewlink = 0;
+    }
 
     // We first must set availability/visibility before setting dynamic content (as this changes state)!
     $modinfo->set_user_visible($uservisible);
@@ -250,6 +246,7 @@ if(is_siteadmin()){
     if ($noviewlink) {
         $modinfo->set_no_view_link();
     }
+
     $injectedcontent = '';
     if ($injectpaymentbutton) {
         // Create the payment button.
@@ -263,7 +260,6 @@ if(is_siteadmin()){
         $enrolperiod = get_duration_desc($instance->costduration);
         $data->costduration = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
- 
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;
@@ -281,6 +277,8 @@ if(is_siteadmin()){
             $data->notifications = [get_string('err:payment:misconfiguration', 'mod_gwpayments')];
         }
 
+//echo serialize($data);
+//die;
 	if(!$instance->studentdisplayonpayments){
 	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
 	}
@@ -353,6 +351,8 @@ function mod_gwpayments_get_completion_active_rule_descriptions($cm) {
     }
     return $descriptions;
 }
+
+
 
 function get_duration_desc($enrolperiod = 0){
  $enrolperiod_desc = '';

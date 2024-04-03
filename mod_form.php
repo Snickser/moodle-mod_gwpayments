@@ -53,6 +53,9 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
         $config = get_config('gwpayments');
 
+//echo serialize($config);
+//die;
+
         // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
@@ -118,6 +121,14 @@ class mod_gwpayments_mod_form extends moodleform_mod {
                 get_string('disablepaymentonmisconfig', 'mod_gwpayments'));
         $mform->setDefault('disablepaymentonmisconfig', $config->disablepaymentonmisconfig);
         $mform->addHelpButton('disablepaymentonmisconfig', 'disablepaymentonmisconfig', 'mod_gwpayments');
+
+        $mform->addElement('advcheckbox', 'showamount',
+                get_string('showamount', 'mod_gwpayments'),
+                get_string('showamount', 'mod_gwpayments'));
+
+        $mform->addElement('advcheckbox', 'showallpayments',
+                get_string('showallpayments', 'mod_gwpayments'),
+                get_string('showallpayments', 'mod_gwpayments'));
 
         $mform->setExpanded('content');
 

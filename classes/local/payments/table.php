@@ -83,7 +83,7 @@ class table extends \table_sql {
      * @param int $pagesize
      * @param bool $useinitialsbar
      */
-    public function render($pagesize, $useinitialsbar = true) {
+    public function render($pagesize, $useinitialsbar = true, $showamount = 1, $showall = 0) {
         $columns = array('fullname', 'cost', 'timecreated', 'timemodified', 'timeexpire', 'status');
         $headers = array(
             get_string('fullname'),
@@ -91,8 +91,13 @@ class table extends \table_sql {
             get_string('timecreated', 'mod_gwpayments'),
             get_string('timemodified', 'mod_gwpayments'),
             get_string('timeexpire', 'mod_gwpayments'),
-            get_string('status', 'mod_gwpayments'),
+            get_string('status', 'mod_gwpayments')
         );
+
+if(!$showamount){
+    array_splice($columns, 1, 1);
+    array_splice($headers, 1, 1);
+}
 
         $this->define_columns($columns);
         $this->define_headers($headers);
@@ -105,27 +110,15 @@ class table extends \table_sql {
             $usql = \core_user\fields::for_name()->get_sql('u', true, '', '', false);
             // REALLY, MOODLE? I need to write MORE code now? For this simple case you could have injected a SHORTCUT method.
             $fields = 'ud.*, ' . $usql->selects;
-            $from = '{gwpayments_userdata} ud ';
-            $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
+            $from = '{course_modules} cm ';
+            $from .= 'JOIN {gwpayments_userdata} ud ON ud.gwpaymentsid=cm.instance ';
             $from .= 'JOIN {user} u ON ud.userid = u.id ';
             $from .= $usql->joins;
             $params += $usql->params;
-        } else {
-            $ufields = get_all_user_name_fields(true, 'u');
-            $fields = 'ud.*, ' . $ufields;
-            $from = '{gwpayments_userdata} ud ';
-            $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
-            $from .= 'JOIN {user} u ON ud.userid = u.id ';
-        }
+//        }
 
-
-        if ($this->context->contextlevel === CONTEXT_MODULE) {
-            $from .= 'JOIN {course_modules} cm ON (cm.course = gwp.course AND cm.id = :cmid)';
-            $params['cmid'] = $this->context->instanceid;
-//	    $where[] = "cm.id=".$this->context->instanceid;
-        } else if ($this->context->contextlevel === CONTEXT_COURSE) {
-            $where[] = 'gwp.course = :courseid';
-            $params['courseid'] = $this->context->instanceid;
+//        if ($this->context->contextlevel === CONTEXT_MODULE) {
+	    $where[] = "cm.id=".$this->context->instanceid;
         }
 
         if (empty($where)) {

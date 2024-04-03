@@ -74,19 +74,26 @@ function xmldb_gwpayments_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021081601, 'mod', 'gwpayments');
     }
 
-    if ($oldversion < 2024040102) {
+    if ($oldversion < 2024040301) {
         $table = new xmldb_table('gwpayments');
-        $field = new xmldb_field('costduration', XMLDB_TYPE_INTEGER,
-                18, null, XMLDB_NOTNULL, null, '0', 'cost');
+        $field = new xmldb_field('costduration', XMLDB_TYPE_INTEGER, 18, null, null, null, '0', 'cost');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        $field = new xmldb_field('printintro', XMLDB_TYPE_INTEGER, 1, null, XMLDB_NOTNULL, null, '0', 'introformat');
+        $field = new xmldb_field('printintro', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'introformat');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('showamount', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'printintro');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('showallpayments', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'showamount');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        upgrade_plugin_savepoint(true, 2024040102, 'mod', 'gwpayments');
+        upgrade_plugin_savepoint(true, 2024040301, 'mod', 'gwpayments');
     }
 
     return true;
