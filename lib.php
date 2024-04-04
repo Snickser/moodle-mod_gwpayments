@@ -257,9 +257,11 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             'description' => $modinfo->get_formatted_name(),
             'successurl' => \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $instance->id)->out(false),
         ];
-        $enrolperiod = get_duration_desc($instance->costduration);
-        $data->costduration = $enrolperiod[0];
-        $data->costduration_desc = $enrolperiod[1];
+        if($instance->showduration){
+	    $enrolperiod = get_duration_desc($instance->costduration);
+	    $data->costduration = $enrolperiod[0];
+	    $data->costduration_desc = $enrolperiod[1];
+        }
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;

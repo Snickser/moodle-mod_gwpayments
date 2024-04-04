@@ -95,3 +95,5 @@ $string['vat_help'] = 'VAT percentage of course cost (note: course cost is inclu
 $string['showamount'] = 'Show amount in payments table';
 $string['showallpayments'] = 'Show everyone who paid for the entire course';
 $string['mincosterror'] = 'Cost cannot be less than 0.01';
+$string['showduration'] = 'Show duration of training';
+
