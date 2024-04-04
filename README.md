@@ -1,6 +1,6 @@
 Changes from original:
 -----
-+ moodle 4.x
++ tested in moodle 4.3
 + added activity duration
 + display enrol duration
 + change logo
