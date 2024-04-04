@@ -207,42 +207,62 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $canpaymentbemade = \mod_gwpayments\local\helper::can_payment_be_made($modinfo, $notifications);
 
     // We're "complete" if there's a record and expiry limitations are not met.
-    $uservisible = false;
-    $available = $modinfo->get_user_visible();
+    $available = $modinfo->get_user_visible(); // show all
+//    $available = false;
+//    $uservisible = $modinfo->is_visible_on_course_page(); // show link
+//    $uservisible = false;
     $noviewlink = false;
     $injectpaymentbutton = false;
 
+//echo serialize($modinfo->is_visible_on_course_page());
+//return;
+
 //    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && !is_siteadmin()) {
-    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) ) {
+    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && $available ) {
         // For those that can submit gwpayments.
-        $noviewlink = !$studentdisplayonpayments;
+//        $viewlink = !$studentdisplayonpayments;
         $userdata = $DB->get_record_sql('SELECT * FROM {gwpayments_userdata}
                 WHERE gwpaymentsid = ?
                 AND userid = ?',
                 [$modinfo->instance, $USER->id]);
         if (empty($userdata)) {
-            $uservisible = true;
+//            $uservisible = true;
             $injectpaymentbutton = true;
         } else if ((int)$userdata->timeexpire > 0 && (int)$userdata->timeexpire < time()) {
-            $uservisible = true;
+//            $uservisible = true;
             $injectpaymentbutton = true;
-        } else if ((int)$userdata->timeexpire === 0) {
-            $uservisible = $studentdisplayonpayments;
-            $available = $studentdisplayonpayments;
+//        } else if ((int)$userdata->timeexpire === 0 && $available) {
+        } else if( $available && !$studentdisplayonpayments ) {
+//            $available = $studentdisplayonpayments;
+//            $uservisible = $studentdisplayonpayments;
+	    $modinfo->set_available(false);
         }
     } else {
         // For everyone else.
-        $uservisible = true;
-        $available = true;
+//        $available = true;
+//        $uservisible = true;
+    }
+
+    // display only intro
+    if($studentdisplayonpayments){
+	$uservisible = true;
+    } else {
+	if ($available){
+//	    $uservisible = true; // enable for debug
+	    $noviewlink = true;
+	} else { 
+	    $noviewlink = false;
+	}
     }
 
     if(is_siteadmin()){
-	$noviewlink = 0;
+	$noviewlink = false;
+	$uservisible = true;
     }
 
     // We first must set availability/visibility before setting dynamic content (as this changes state)!
-    $modinfo->set_user_visible($uservisible);
-    $modinfo->set_available($available);
+//    $modinfo->set_available($available); // first
+    $modinfo->set_user_visible($uservisible); // after
     if ($noviewlink) {
         $modinfo->set_no_view_link();
     }
@@ -281,7 +301,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
 
 //echo serialize($data);
 //die;
-	if(!$instance->studentdisplayonpayments){
+	if(!$studentdisplayonpayments){
 	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
 	}
 
@@ -292,6 +312,12 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     if (!empty($injectedcontent)) {
         $modinfo->set_content($modinfo->content . $injectedcontent);
     }
+
+    // display only intro
+//    if(!$studentdisplayonpayments){
+//	$modinfo->set_user_visible(false);
+//	$modinfo->set_no_view_link();
+//    }
 
 }
 
@@ -379,3 +405,4 @@ function get_duration_desc($enrolperiod = 0){
  }
  return array($enrolperiod, $enrolperiod_desc);
 }
+
