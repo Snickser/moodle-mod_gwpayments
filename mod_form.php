@@ -93,6 +93,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement('advcheckbox', 'showduration',
                 get_string('showduration', 'mod_gwpayments'),
                 get_string('showduration', 'mod_gwpayments'));
+
 /*
         $mform->addElement('text', 'vat', get_string('vat', 'mod_gwpayments'), array('size' => 4));
         $mform->setType('vat', PARAM_RAW);

@@ -360,7 +360,10 @@ function get_duration_desc($enrolperiod = 0){
  $enrolperiod_desc = '';
  if($enrolperiod){
     if( $enrolperiod > 0 ){
-        if($enrolperiod>=86400){
+        if($enrolperiod>=86400*7){
+            $enrolperiod_desc = get_string('weeks');
+            $enrolperiod = $enrolperiod/(86400*7);
+        } else if($enrolperiod>=86400){
             $enrolperiod_desc = get_string('days');
             $enrolperiod = round($enrolperiod/86400);
         } else if($enrolperiod>=3600) {
