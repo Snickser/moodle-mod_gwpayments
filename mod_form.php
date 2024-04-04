@@ -89,6 +89,11 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setDefault('costduration', 86400);
 //        $mform->addRule('duration', null, 'required', null, 'client');
         $mform->addHelpButton('costduration', 'costduration', 'mod_gwpayments');
+
+        $mform->addElement('advcheckbox', 'showduration',
+                get_string('showduration', 'mod_gwpayments'),
+                get_string('showduration', 'mod_gwpayments'));
+
 /*
         $mform->addElement('text', 'vat', get_string('vat', 'mod_gwpayments'), array('size' => 4));
         $mform->setType('vat', PARAM_RAW);

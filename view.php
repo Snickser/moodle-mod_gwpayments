@@ -98,7 +98,6 @@ if (isguestuser()) {
 
 //    $pd = $DB->get_record('gwpayments_userdata', array('gwpaymentsid' => $cm->instance, 'userid' => $USER->id), '*', MUST_EXIST);
 
-    $enrolperiod = get_duration_desc($gwpayment->costduration);
 
         $data = new stdClass();
         $data->component = 'mod_gwpayments';
@@ -107,8 +106,12 @@ if (isguestuser()) {
         $data->description = $gwpayment->name;
         $data->itemid = $cm->id;
 
+    if($gwpayment->showduration){
+        $enrolperiod = get_duration_desc($gwpayment->costduration);
         $data->costduration = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
+    }
+
         $data->localisedcost = \core_payment\helper::get_cost_as_string($gwpayment->cost, $gwpayment->currency);
         $data->instanceid = $gwpayment->id;
         $data->successurl = \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $gwpayment->id)->out(false);

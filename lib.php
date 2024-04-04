@@ -257,9 +257,11 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             'description' => $modinfo->get_formatted_name(),
             'successurl' => \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $instance->id)->out(false),
         ];
-        $enrolperiod = get_duration_desc($instance->costduration);
-        $data->costduration = $enrolperiod[0];
-        $data->costduration_desc = $enrolperiod[1];
+        if($instance->showduration){
+	    $enrolperiod = get_duration_desc($instance->costduration);
+	    $data->costduration = $enrolperiod[0];
+	    $data->costduration_desc = $enrolperiod[1];
+        }
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
         $data->vat = (int)$instance->vat;
@@ -358,7 +360,10 @@ function get_duration_desc($enrolperiod = 0){
  $enrolperiod_desc = '';
  if($enrolperiod){
     if( $enrolperiod > 0 ){
-        if($enrolperiod>=86400){
+        if($enrolperiod>=86400*7){
+            $enrolperiod_desc = get_string('weeks');
+            $enrolperiod = $enrolperiod/(86400*7);
+        } else if($enrolperiod>=86400){
             $enrolperiod_desc = get_string('days');
             $enrolperiod = round($enrolperiod/86400);
         } else if($enrolperiod>=3600) {
