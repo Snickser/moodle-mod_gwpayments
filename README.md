@@ -24,7 +24,7 @@ INSTALLATION
 
 - Copy the gwpayments folder to your /mod directory.
 - Go to the administration notifications page.
-- Install te plugin.
+- Install the plugin.
 - Configure your plugin.
 - Add an instance of the module to a course.
 - Configure your settings.
