@@ -2,13 +2,13 @@ Changes from original:
 -----
 + tested in moodle 4.3
 + added activity duration
-+ display enrol duration
++ display enrol duration (switchable)
 + change logo
 + add page view in instance parameters
 + admin always sees payment button
 + fix userid link
 + fix availability options
-+ show duration of enrolment
+
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
