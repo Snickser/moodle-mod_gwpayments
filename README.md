@@ -7,6 +7,7 @@ Changes from original:
 + add page view in instance parameters
 + admin always sees payment button
 + fix userid link
++ fix availability options
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
