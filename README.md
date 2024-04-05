@@ -8,6 +8,7 @@ Changes from original:
 + admin always sees payment button
 + fix userid link
 + fix availability options
++ show duration of enrolment
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
