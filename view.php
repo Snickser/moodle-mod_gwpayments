@@ -120,6 +120,7 @@ if (isguestuser()) {
         $data->disablepaymentbutton = false;
         $data->hasnotifications = true;
 	$data->haspayments = $pd->haspayments;
+	$data->defaultpaymentlink = $gwpayment->defaultpaymentlink;
 
 //echo serialize($data->successurl);
 //die;
