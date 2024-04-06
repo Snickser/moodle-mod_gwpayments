@@ -27,6 +27,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -135,9 +136,12 @@ class mod_gwpayments_mod_form extends moodleform_mod {
                 get_string('showallpayments', 'mod_gwpayments'),
                 get_string('showallpayments', 'mod_gwpayments'));
 
+        $mform->addElement('text', 'defaultpaymentlink',
+                get_string('defaultpaymentlink', 'mod_gwpayments'), ['size' => 50]);
+        $mform->addHelpButton('defaultpaymentlink', 'defaultpaymentlink', 'mod_gwpayments');
+        $mform->setType('defaultpaymentlink', PARAM_TEXT);
+
         $mform->setExpanded('content');
-
-
 
         // -------------------------------------------------------
         $this->standard_coursemodule_elements();

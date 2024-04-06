@@ -39,33 +39,20 @@ require_once(__DIR__ . '/deprecatedlib.php');
  */
 function gwpayments_supports($feature) {
     switch($feature) {
-        case FEATURE_MOD_ARCHETYPE:
-            return MOD_ARCHETYPE_OTHER;
-        case FEATURE_BACKUP_MOODLE2:
-            return true;
-        case FEATURE_MOD_INTRO:
-            return true;
-        case FEATURE_MODEDIT_DEFAULT_COMPLETION:
-            return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS:
-            return false;  // Completion will not track views :D.
-        case FEATURE_COMPLETION_HAS_RULES:
-            return true;  // We have a custom completion mechanism :D.
-        case FEATURE_SHOW_DESCRIPTION:
-            return true;
-        case FEATURE_GROUPS:
-            return false;
-        case FEATURE_GROUPINGS:
-            return false;
-        case FEATURE_GROUPMEMBERSONLY:
-            return false;
-        case FEATURE_GRADE_HAS_GRADE:
-            return false; // We have no grading mechanism :D.
-        case FEATURE_GRADE_OUTCOMES:
-            return false;
-        case FEATURE_NO_VIEW_LINK:
-            return false;
-        case FEATURE_MOD_PURPOSE: return MOD_PURPOSE_COMMUNICATION;
+        case FEATURE_MOD_ARCHETYPE:               return MOD_ARCHETYPE_OTHER;
+        case FEATURE_BACKUP_MOODLE2:              return true;
+        case FEATURE_MOD_INTRO:                   return true;
+        case FEATURE_MODEDIT_DEFAULT_COMPLETION:  return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:     return false; // Completion will not track views :D.
+        case FEATURE_COMPLETION_HAS_RULES:        return true;  // We have a custom completion mechanism :D.
+        case FEATURE_SHOW_DESCRIPTION:            return true;
+        case FEATURE_GROUPS:                      return false;
+        case FEATURE_GROUPINGS:                   return false;
+        case FEATURE_GROUPMEMBERSONLY:            return false;
+        case FEATURE_GRADE_HAS_GRADE:             return false; // We have no grading mechanism :D.
+        case FEATURE_GRADE_OUTCOMES:              return false;
+        case FEATURE_NO_VIEW_LINK:                return false;
+        case FEATURE_MOD_PURPOSE:                 return MOD_PURPOSE_COMMUNICATION;
 
         default:
             return null;
@@ -145,16 +132,6 @@ function gwpayments_update_instance($data, $mform) {
     $data->timemodified = time();
     $data->id           = $data->instance;
 
-//    $advoptions = array();
-//    $advoptions['printintro'] = $data->printintro;
-//    $data->advoptions = serialize($advoptions);
-
-//    $data->page         = $data->page['text'];
-//    $data->contentformat = $data->page['format'];
-
-//echo serialize($data);
-//die;
-
     $DB->update_record('gwpayments', $data);
 
     return true;
@@ -210,7 +187,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $available = $modinfo->get_user_visible(); // show all
 //    $available = false;
 //    $uservisible = $modinfo->is_visible_on_course_page(); // show link
-//    $uservisible = false;
+    $uservisible = false;
     $noviewlink = false;
     $injectpaymentbutton = false;
 
@@ -237,7 +214,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
 //            $uservisible = $studentdisplayonpayments;
 	    $modinfo->set_available(false);
         }
-    } else {
+//    } else {
         // For everyone else.
 //        $available = true;
 //        $uservisible = true;
@@ -291,6 +268,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = false;
+	$data->defaultpaymentlink = $instance->defaultpaymentlink;
         if (!$canpaymentbemade && $disablepaymentonmisconfig) {
             $data->disablepaymentbutton = true;
         }
@@ -299,8 +277,6 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             $data->notifications = [get_string('err:payment:misconfiguration', 'mod_gwpayments')];
         }
 
-//echo serialize($data);
-//die;
 	if(!$studentdisplayonpayments){
 	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
 	}
@@ -312,13 +288,6 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     if (!empty($injectedcontent)) {
         $modinfo->set_content($modinfo->content . $injectedcontent);
     }
-
-    // display only intro
-//    if(!$studentdisplayonpayments){
-//	$modinfo->set_user_visible(false);
-//	$modinfo->set_no_view_link();
-//    }
-
 }
 
 /**
@@ -379,7 +348,6 @@ function mod_gwpayments_get_completion_active_rule_descriptions($cm) {
     }
     return $descriptions;
 }
-
 
 
 function get_duration_desc($enrolperiod = 0){

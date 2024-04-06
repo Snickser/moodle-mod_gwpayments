@@ -53,7 +53,7 @@
     }
 
 }}
-<br><div class="mod_gwpayments_payment_region text-center">
+<div class="mod_gwpayments_payment_region text-center">
     {{#isguestuser}}
         <div class="mdl-align">
             <p>{{# str }} paymentrequired, mod_gwpayments {{/ str}}</p>
@@ -89,6 +89,24 @@
             >
             {{# str }} sendpaymentbutton, mod_gwpayments {{/ str }}
         </button>
+
+{{#defaultpaymentlink}}
+<p><br>
+<details>
+ <summary>{{# str }} sendpaymentsummary, mod_gwpayments {{/ str }}</summary>
+ <form action="{{defaultpaymentlink}}" method="post">
+  <p><button class="btn btn-secondary btn-gwpayments btn-gwpayments-sec">
+  {{# str }} proceed {{/ str }}
+  </button>
+  <input id="component" class="hidden-inputs" name="component" type="hidden" value="{{component}}">
+  <input id="paymentarea" class="hidden-inputs" name="paymentarea" type="hidden" value="{{paymentarea}}">
+  <input id="itemid" class="hidden-inputs" name="itemid" type="hidden" value="{{instanceid}}">
+  <input id="description" class="hidden-inputs" name="description" type="hidden" value="{{description}}"></p>
+ </form>
+</details>
+</p>
+{{/defaultpaymentlink}}
+
     </div>
     {{/isguestuser}}
 </div>
