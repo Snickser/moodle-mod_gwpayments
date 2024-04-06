@@ -96,4 +96,6 @@ $string['showamount'] = 'Show amount in payments table';
 $string['showallpayments'] = 'Show everyone who paid for the entire course';
 $string['mincosterror'] = 'Cost cannot be less than 0.01';
 $string['showduration'] = 'Show duration of training';
-
+$string['sendpaymentsummary'] = 'Click here if the payment button below does not work on yours device.';
+$string['defaultpaymentlink'] = 'Link to additional payment page';
+$string['defaultpaymentlink_help'] = 'If present, opens a section with a button for going to an additional payment page.';

@@ -291,6 +291,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = false;
+	$data->defaultpaymentlink = $instance->defaultpaymentlink;
         if (!$canpaymentbemade && $disablepaymentonmisconfig) {
             $data->disablepaymentbutton = true;
         }

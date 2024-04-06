@@ -2,13 +2,12 @@ Changes from original:
 -----
 + tested in moodle 4.3
 + added activity duration
-+ display enrol duration (switchable)
++ display enrol duration
 + change logo
 + add page view in instance parameters
 + admin always sees payment button
 + fix userid link
-+ fix availability options
-
++ add additional payment link
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
@@ -24,7 +23,7 @@ INSTALLATION
 
 - Copy the gwpayments folder to your /mod directory.
 - Go to the administration notifications page.
-- Install the plugin.
+- Install te plugin.
 - Configure your plugin.
 - Add an instance of the module to a course.
 - Configure your settings.
