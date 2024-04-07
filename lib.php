@@ -225,7 +225,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
 	$uservisible = true;
     } else {
 	if ($available){
-//	    $uservisible = true; // enable for debug
+	    $uservisible = true; // enable for debug
 	    $noviewlink = true;
 	} else { 
 	    $noviewlink = false;
@@ -268,7 +268,9 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = false;
-	$data->defaultpaymentlink = $instance->defaultpaymentlink;
+        $data->hidepaymentaccount = $instance->hidepaymentaccount;
+        $data->addpaymentlink = $instance->addpaymentlink;
+
         if (!$canpaymentbemade && $disablepaymentonmisconfig) {
             $data->disablepaymentbutton = true;
         }

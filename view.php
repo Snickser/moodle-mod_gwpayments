@@ -119,8 +119,9 @@ if (isguestuser()) {
         $data->locale = $USER->lang;
         $data->disablepaymentbutton = false;
         $data->hasnotifications = true;
-	$data->haspayments = $pd->haspayments;
-	$data->defaultpaymentlink = $gwpayment->defaultpaymentlink;
+        $data->haspayments = $pd->haspayments;
+        $data->addpaymentlink = $gwpayment->addpaymentlink;
+        $data->hidepaymentaccount = $gwpayment->hidepaymentaccount;
 
 //echo serialize($data->successurl);
 //die;
