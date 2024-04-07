@@ -74,6 +74,7 @@
 <p class="mod-gwpayments-basecostduration"><b>
 {{#str}}enrolperiod, enrol{{/str}} ({{costduration_desc}}): {{costduration}}
 </b></p>{{/costduration}}
+{{^hidepaymentaccount}}
         <button
             class="btn btn-primary btn-gwpayments"
             type="button"
@@ -89,23 +90,33 @@
             >
             {{# str }} sendpaymentbutton, mod_gwpayments {{/ str }}
         </button>
+{{/hidepaymentaccount}}
 
-{{#defaultpaymentlink}}
-<p><br>
+{{#addpaymentlink}}
+<p>
+{{^hidepaymentaccount}}
+<br>
 <details>
- <summary>{{# str }} sendpaymentsummary, mod_gwpayments {{/ str }}</summary>
- <form action="{{defaultpaymentlink}}" method="post">
-  <p><button class="btn btn-secondary btn-gwpayments btn-gwpayments-sec">
-  {{# str }} proceed {{/ str }}
-  </button>
-  <input id="component" class="hidden-inputs" name="component" type="hidden" value="{{component}}">
-  <input id="paymentarea" class="hidden-inputs" name="paymentarea" type="hidden" value="{{paymentarea}}">
-  <input id="itemid" class="hidden-inputs" name="itemid" type="hidden" value="{{instanceid}}">
-  <input id="description" class="hidden-inputs" name="description" type="hidden" value="{{description}}"></p>
- </form>
+  <summary>{{# str }} sendpaymentsummary, mod_gwpayments {{/ str }}</summary>
+  <form action="{{addpaymentlink}}" method="post">
+    <button class="btn btn-secondary btn-gwpayments btn-gwpayments-sec">
+    {{# str }} proceed {{/ str }}
+{{/hidepaymentaccount}}
+{{#hidepaymentaccount}}
+  <form action="{{addpaymentlink}}" method="post">
+    <button class="btn btn-primary btn-gwpayments">
+    {{# str }} sendpaymentbutton, mod_gwpayments {{/ str }}
+{{/hidepaymentaccount}}
+    </button>
+    <input id="component" class="hidden-inputs" name="component" type="hidden" value="{{component}}">
+    <input id="paymentarea" class="hidden-inputs" name="paymentarea" type="hidden" value="{{paymentarea}}">
+    <input id="itemid" class="hidden-inputs" name="itemid" type="hidden" value="{{instanceid}}">
+    <input id="description" class="hidden-inputs" name="description" type="hidden" value="{{description}}">
+  </form>
+{{^hidepaymentaccount}}
 </details>
-</p>
-{{/defaultpaymentlink}}
+{{/hidepaymentaccount}}
+{{/addpaymentlink}}
 
     </div>
     {{/isguestuser}}

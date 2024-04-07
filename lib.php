@@ -191,13 +191,9 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     $noviewlink = false;
     $injectpaymentbutton = false;
 
-//echo serialize($modinfo->is_visible_on_course_page());
-//return;
-
 //    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && !is_siteadmin()) {
     if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && $available ) {
         // For those that can submit gwpayments.
-//        $viewlink = !$studentdisplayonpayments;
         $userdata = $DB->get_record_sql('SELECT * FROM {gwpayments_userdata}
                 WHERE gwpaymentsid = ?
                 AND userid = ?',
@@ -208,29 +204,24 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         } else if ((int)$userdata->timeexpire > 0 && (int)$userdata->timeexpire < time()) {
 //            $uservisible = true;
             $injectpaymentbutton = true;
-//        } else if ((int)$userdata->timeexpire === 0 && $available) {
-        } else if( $available && !$studentdisplayonpayments ) {
+//        } else if ((int)$userdata->timeexpire === 0 ) {
+        } else if( !$studentdisplayonpayments ) {
 //            $available = $studentdisplayonpayments;
 //            $uservisible = $studentdisplayonpayments;
 	    $modinfo->set_available(false);
         }
-//    } else {
-        // For everyone else.
-//        $available = true;
-//        $uservisible = true;
     }
 
-    // display only intro
-    if($studentdisplayonpayments){
-	$uservisible = true;
-    } else {
-	if ($available){
-//	    $uservisible = true; // enable for debug
+
+    if($available){
+        if($studentdisplayonpayments){
+	    $uservisible = true;
+        } else {
 	    $noviewlink = true;
-	} else { 
-	    $noviewlink = false;
+	    $uservisible = true; // enable for debug
 	}
     }
+
 
     if(is_siteadmin()){
 	$noviewlink = false;
@@ -268,7 +259,9 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = false;
-	$data->defaultpaymentlink = $instance->defaultpaymentlink;
+        $data->hidepaymentaccount = $instance->hidepaymentaccount;
+        $data->addpaymentlink = $instance->addpaymentlink;
+
         if (!$canpaymentbemade && $disablepaymentonmisconfig) {
             $data->disablepaymentbutton = true;
         }
