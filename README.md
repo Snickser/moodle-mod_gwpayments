@@ -4,9 +4,10 @@ Changes from original:
 + added activity duration
 + display enrol duration
 + change logo
-+ add page view in instance parameters
++ add intro page view in instance parameters
 + admin always sees payment button
 + fix userid link
++ fix availability on course page
 + add additional payment link
 
 ---
