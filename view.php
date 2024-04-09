@@ -122,6 +122,7 @@ if (isguestuser()) {
         $data->haspayments = $pd->haspayments;
         $data->addpaymentlink = $gwpayment->addpaymentlink;
         $data->hidepaymentaccount = $gwpayment->hidepaymentaccount;
+        $data->showcost = $gwpayment->showcost;
 
 //echo serialize($data->successurl);
 //die;

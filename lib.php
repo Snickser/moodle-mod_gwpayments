@@ -252,7 +252,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         }
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
-        $data->vat = (int)$instance->vat;
+//        $data->vat = (int)$instance->vat;
         $data->localisedcost = \core_payment\helper::get_cost_as_string($instance->cost, $instance->currency);
         $data->locale = $USER->lang;
         $data->component = 'mod_gwpayments';
@@ -261,6 +261,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->hasnotifications = false;
         $data->hidepaymentaccount = $instance->hidepaymentaccount;
         $data->addpaymentlink = $instance->addpaymentlink;
+        $data->showcost = $instance->showcost;
 
         if (!$canpaymentbemade && $disablepaymentonmisconfig) {
             $data->disablepaymentbutton = true;
