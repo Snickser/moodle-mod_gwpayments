@@ -134,7 +134,6 @@ if(!$showamount){
 
     }
 
-
         if (empty($where)) {
             // Prevent bugs.
             $where[] = '1 = 1';

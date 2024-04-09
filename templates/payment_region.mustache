@@ -69,7 +69,9 @@
     {{/hasnotifications}}
     <div class="mod_gwpayments-paymentoption">
         <p>{{# str }} paymentrequired, mod_gwpayments {{/ str}}</p>
+{{#showcost}}
         <p class="mod-gwpayments-basecost"><b>{{#str}}cost{{/str}}: {{localisedcost}}</b></p>
+{{/showcost}}
 {{#costduration}}
 <p class="mod-gwpayments-basecostduration"><b>
 {{#str}}enrolperiod, enrol{{/str}} ({{costduration_desc}}): {{costduration}}

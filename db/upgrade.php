@@ -74,7 +74,7 @@ function xmldb_gwpayments_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021081601, 'mod', 'gwpayments');
     }
 
-    if ($oldversion < 3024040703) {
+    if ($oldversion < 3024040902) {
         $table = new xmldb_table('gwpayments');
         $field = new xmldb_field('costduration', XMLDB_TYPE_INTEGER, 18, null, null, null, '0', 'cost');
         if (!$dbman->field_exists($table, $field)) {
@@ -104,8 +104,12 @@ function xmldb_gwpayments_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
+        $field = new xmldb_field('showcost', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'cost');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
 
-        upgrade_plugin_savepoint(true, 3024040703, 'mod', 'gwpayments');
+        upgrade_plugin_savepoint(true, 3024040902, 'mod', 'gwpayments');
     }
 
     return true;
