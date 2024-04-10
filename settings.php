@@ -66,7 +66,7 @@ if ($ADMIN->fulltree) {
 
     if (!empty($currencies)) {
         $settings->add(new admin_setting_configselect('gwpayments/currency',
-                get_string('currency', 'mod_gwpayments'), '', 'EUR', $currencies));
+                get_string('currency', 'mod_gwpayments'), '', 'RUB', $currencies));
     }
 
     $settings->add(new admin_setting_configcheckbox('gwpayments/studentdisplayonpayments',
@@ -76,5 +76,9 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('gwpayments/disablepaymentonmisconfig',
         get_string('disablepaymentonmisconfig', 'mod_gwpayments'),
         get_string('disablepaymentonmisconfig_help', 'mod_gwpayments'), 0));
+
+    $settings->add(new admin_setting_configcheckbox('gwpayments/showamount',
+        get_string('showamount', 'mod_gwpayments'),
+        get_string('showamount', 'mod_gwpayments'), 0));
 
 }
