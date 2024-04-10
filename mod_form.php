@@ -81,7 +81,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 //        $mform->setType('cost', PARAM_FLOAT);
         $mform->addRule('cost', null, 'required', null, 'client');
 //        $mform->addRule('cost', null, 'numeric', null, 'client');
-//        $mform->setDefault('cost', $config->cost);
+        $mform->setDefault('cost', $config->cost);
         $mform->addHelpButton('cost', 'cost', 'mod_gwpayments');
 
         $mform->addElement('advcheckbox', 'showcost',
@@ -90,9 +90,8 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setType('showcost', PARAM_INT);
 
         // This is used for expiry determination.
-        $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), array('optional' => true, 'defaultunit' => 86400));
-        $mform->setDefault('costduration', 86400);
-//        $mform->addRule('duration', null, 'required', null, 'client');
+        $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), array('optional' => true));
+//        $mform->setDefault('costduration', 86400);
         $mform->addHelpButton('costduration', 'costduration', 'mod_gwpayments');
 
         $mform->addElement('advcheckbox', 'showduration',
