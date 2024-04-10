@@ -108,6 +108,8 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $supportedcurrencies = \mod_gwpayments\local\helper::get_possible_currencies();
         $mform->addElement('select', 'currency', get_string('currency', 'mod_gwpayments'), $supportedcurrencies);
         $mform->setDefault('currency', $config->currency);
+        $mform->addRule('currency', null, 'required', null, 'client');
+        $mform->addHelpButton('currency', 'currency', 'mod_gwpayments');
 
         $accounts = \core_payment\helper::get_payment_accounts_menu($this->context);
         if (count($accounts) == 0) {
@@ -120,6 +122,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setType('accountid', PARAM_INT);
         $mform->addHelpButton('accountid', 'paymentaccount', 'mod_gwpayments');
         $mform->disabledIf('accountid', 'hidepaymentaccount', "neq", 0);
+        $mform->addRule('accountid', null, 'required', null, 'client');
 
         $mform->addElement('advcheckbox', 'hidepaymentaccount',
                 get_string('hidepaymentaccount', 'mod_gwpayments'),

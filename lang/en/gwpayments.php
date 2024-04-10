@@ -103,3 +103,4 @@ $string['addpaymentlinkempty'] = 'Can not be empty if payment account is disable
 $string['hidepaymentaccount'] = 'Use only additional link';
 $string['hidepaymentaccount_help'] = 'This option replaces the link in the payment button with a link to the additional page.';
 $string['showcost'] = 'Show cost on page';
+$string['currency_help'] = 'Payment currency.';
