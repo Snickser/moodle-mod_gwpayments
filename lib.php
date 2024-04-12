@@ -217,8 +217,8 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         if($studentdisplayonpayments){
 	    $uservisible = true;
         } else {
-	    $noviewlink = true;
-	    $uservisible = true; // enable for debug
+	    $noviewlink = false;
+	    $uservisible = false; // enable for debug
 	}
     }
 
