@@ -27,7 +27,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require('../../config.php');
+require_once($CFG->dirroot.'/mod/gwpayments/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
+
 $id = required_param('id', PARAM_INT);
 $redirect = optional_param('redirect', 0, PARAM_BOOL);
 $referer = optional_param('referer', null, PARAM_URL);
@@ -38,8 +40,6 @@ $gwpayment = $DB->get_record('gwpayments', array('id' => $cm->instance), '*', MU
 $PAGE->set_url('/mod/gwpayments/view.php', array('id' => $cm->id));
 
 require_course_login($course, true, $cm);
-
-
 $context = context_module::instance($cm->id);
 require_capability('mod/gwpayments:view', $context);
 

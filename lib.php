@@ -177,7 +177,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     global $DB, $USER, $OUTPUT;
 
     $instance = $DB->get_record('gwpayments', ['id' => $modinfo->instance], '*', MUST_EXIST);
-    $studentdisplayonpayments = (bool)$instance->studentdisplayonpayments;
+    $studentdisplayonpayments = (int)$instance->studentdisplayonpayments;
     $disablepaymentonmisconfig = (bool)$instance->disablepaymentonmisconfig;
 
     $notifications = [];
@@ -205,23 +205,21 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
 //            $uservisible = true;
             $injectpaymentbutton = true;
 //        } else if ((int)$userdata->timeexpire === 0 ) {
-        } else if( !$studentdisplayonpayments ) {
+        } else if( !$studentdisplayonpayments || $studentdisplayonpayments==2 ) {
 //            $available = $studentdisplayonpayments;
 //            $uservisible = $studentdisplayonpayments;
 	    $modinfo->set_available(false);
         }
     }
 
-
     if($available){
         if($studentdisplayonpayments){
 	    $uservisible = true;
         } else {
 	    $noviewlink = false;
-	    $uservisible = false; // enable for debug
+//	    $uservisible = true; // enable for debug
 	}
     }
-
 
     if(is_siteadmin()){
 	$noviewlink = false;
