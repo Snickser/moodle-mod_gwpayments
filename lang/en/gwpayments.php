@@ -84,8 +84,9 @@ $string['status'] = 'Status';
 $string['status:active'] = 'Active';
 $string['status:expired'] = 'Expired';
 $string['studentdisplayonpayments'] = 'Allow view page for students?';
-$string['studentdisplayonpayments_help'] = 'Allows the student to access the module\'s view page when they\'ve paid.<br/>
-The view page only displays the information related to the current user\'s payment(s).';
+$string['studentdisplayonpayments_help'] = 'Allows the student to access the module\'s view page when they\'ve paid.
+The view page only displays the information related to the current user\'s payment(s).<br/>
+Or allows access to the viewing page, but Hide after payment.';
 $string['task:defaulttasks'] = 'Default tasks.';
 $string['timecreated'] = 'Time paid';
 $string['timemodified'] = 'Update time';

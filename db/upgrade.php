@@ -80,11 +80,11 @@ function xmldb_gwpayments_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        $field = new xmldb_field('printintro', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'introformat');
+        $field = new xmldb_field('printintro', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'introformat');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        $field = new xmldb_field('showamount', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'printintro');
+        $field = new xmldb_field('showamount', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'printintro');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -92,7 +92,7 @@ function xmldb_gwpayments_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        $field = new xmldb_field('showduration', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'showallpayments');
+        $field = new xmldb_field('showduration', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'showallpayments');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -104,7 +104,7 @@ function xmldb_gwpayments_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        $field = new xmldb_field('showcost', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'cost');
+        $field = new xmldb_field('showcost', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'cost');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }

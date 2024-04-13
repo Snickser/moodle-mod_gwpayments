@@ -71,6 +71,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $this->standard_intro_elements();
 
         $mform->addElement('advcheckbox', 'printintro', get_string('printintro', 'page'), 0);
+        $mform->setType('printintro', PARAM_INT);
 
         // -------------------------------------------------------
         $mform->addElement('header', 'content', get_string('contentheader', 'mod_gwpayments'));
@@ -134,9 +135,9 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setType('addpaymentlink', PARAM_TEXT);
         $mform->addHelpButton('addpaymentlink', 'addpaymentlink', 'mod_gwpayments');
 
-        $mform->addElement('advcheckbox', 'studentdisplayonpayments',
-                get_string('studentdisplayonpayments', 'mod_gwpayments'),
-                get_string('studentdisplayonpayments', 'mod_gwpayments'));
+	$options = [1 => get_string('yes'), 0 => get_string('no'), 2 => get_string('hide')];
+        $mform->addElement('select', 'studentdisplayonpayments',
+                get_string('studentdisplayonpayments', 'mod_gwpayments'), $options);
         $mform->setType('studentdisplayonpayments', PARAM_INT);
         $mform->setDefault('studentdisplayonpayments', $config->studentdisplayonpayments);
         $mform->addHelpButton('studentdisplayonpayments', 'studentdisplayonpayments', 'mod_gwpayments');
