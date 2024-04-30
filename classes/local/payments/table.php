@@ -83,15 +83,21 @@ class table extends \table_sql {
      * @param int $pagesize
      * @param bool $useinitialsbar
      */
-    public function render($pagesize, $useinitialsbar = true) {
-        $columns = array('fullname', 'cost', 'timecreated', 'timeexpire', 'status');
+    public function render($pagesize, $useinitialsbar = true, $showamount = 1, $showall = 0) {
+        $columns = array('fullname', 'cost', 'timecreated', 'timemodified', 'timeexpire', 'status');
         $headers = array(
             get_string('fullname'),
             get_string('amount', 'mod_gwpayments'),
             get_string('timecreated', 'mod_gwpayments'),
+            get_string('timemodified', 'mod_gwpayments'),
             get_string('timeexpire', 'mod_gwpayments'),
-            get_string('status', 'mod_gwpayments'),
+            get_string('status', 'mod_gwpayments')
         );
+
+if(!$showamount){
+    array_splice($columns, 1, 1);
+    array_splice($headers, 1, 1);
+}
 
         $this->define_columns($columns);
         $this->define_headers($headers);
@@ -99,39 +105,45 @@ class table extends \table_sql {
         $where = [];
         $params = [];
 
-        // Generate SQL.
-        if (class_exists('\core_user\fields', true)) {
+    if($showall){
+
+        $usql = \core_user\fields::for_name()->get_sql('u', true, '', '', false);
+        // REALLY, MOODLE? I need to write MORE code now? For this simple case you could have injected a SHORTCUT method.
+        $fields = 'ud.*, ' . $usql->selects;
+        $from = '{gwpayments_userdata} ud ';
+        $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
+        $from .= 'JOIN {user} u ON ud.userid = u.id ';
+        $from .= $usql->joins;
+        $params += $usql->params;
+	if ($this->context->contextlevel === CONTEXT_MODULE) {
+            $from .= 'JOIN {course_modules} cm ON (cm.course = gwp.course AND cm.id = :cmid)';
+            $params['cmid'] = $this->context->instanceid;
+        }
+
+    } else {
+
             $usql = \core_user\fields::for_name()->get_sql('u', true, '', '', false);
             // REALLY, MOODLE? I need to write MORE code now? For this simple case you could have injected a SHORTCUT method.
             $fields = 'ud.*, ' . $usql->selects;
-            $from = '{gwpayments_userdata} ud ';
-            $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
+            $from = '{course_modules} cm ';
+            $from .= 'JOIN {gwpayments_userdata} ud ON ud.gwpaymentsid=cm.instance ';
             $from .= 'JOIN {user} u ON ud.userid = u.id ';
             $from .= $usql->joins;
             $params += $usql->params;
-        } else {
-            $ufields = get_all_user_name_fields(true, 'u');
-            $fields = 'ud.*, ' . $ufields;
-            $from = '{gwpayments_userdata} ud ';
-            $from .= 'JOIN {gwpayments} gwp ON ud.gwpaymentsid = gwp.id ';
-            $from .= 'JOIN {user} u ON ud.userid = u.id ';
-        }
+	    $where[] = "cm.id=".$this->context->instanceid;
 
-        if ($this->context->contextlevel === CONTEXT_MODULE) {
-            $from .= 'JOIN {course_modules} cm ON (cm.course = gwp.course AND cm.id = :cmid)';
-            $params['cmid'] = $this->context->instanceid;
-        } else if ($this->context->contextlevel === CONTEXT_COURSE) {
-            $where[] = 'gwp.course = :courseid';
-            $params['courseid'] = $this->context->instanceid;
-        }
+    }
 
         if (empty($where)) {
             // Prevent bugs.
             $where[] = '1 = 1';
         }
 
+	$this->useridfield='userid';
+
         parent::set_sql($fields, $from, implode(' AND ', $where), $params);
         $this->out($pagesize, $useinitialsbar);
+
     }
 
     /**
@@ -151,6 +163,7 @@ class table extends \table_sql {
      * @return string time string
      */
     public function col_timecreated($row) {
+//	$data = $row->timemodified ? $row->timemodified : $data = $row->timecreated;
         return userdate($row->timecreated, get_string('strftimedatetime', 'langconfig'));
     }
 
@@ -165,6 +178,20 @@ class table extends \table_sql {
             return  '-';
         } else {
             return userdate($row->timeexpire, get_string('strftimedatetime', 'langconfig'));
+        }
+    }
+
+    /**
+     * Render visual representation of the 'timeexpire' column for use in the table
+     *
+     * @param \stdClass $row
+     * @return string time string
+     */
+    public function col_timemodified($row) {
+        if (empty($row->timemodified)) {
+            return  '-';
+        } else {
+            return userdate($row->timemodified, get_string('strftimedatetime', 'langconfig'));
         }
     }
 

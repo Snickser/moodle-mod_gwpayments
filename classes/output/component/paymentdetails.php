@@ -78,30 +78,14 @@ class paymentdetails implements renderable, templatable {
         global $DB;
         $rs = new stdClass;
 
-        if ($this->context instanceof \context_course) {
-            $sql = 'SELECT gwp.*,
-                    p.id as paymentid, p.paymentarea
-                    FROM {gwpayments} gwp
-                    JOIN {gwpayments_userdata} ud ON (ud.gwpaymentsid = gwp.id AND p.userid = ud.userid AND ud.userid = :userid)
-                    JOIN {payments} p ON (p.itemid = gwp.id AND p.component = :component)
-                    WHERE gwp.course = :courseid
-                    ORDER BY ud.timecreated DESC';
+        if ($this->context instanceof \context_module) {
+            $sql = 'SELECT DISTINCT ud.*
+                    FROM mdl_course_modules cm
+                    JOIN mdl_gwpayments_userdata ud on ud.gwpaymentsid=cm.instance
+                    JOIN mdl_user u on ud.userid=u.id
+                    WHERE cm.id=:cmid and userid=:userid';
             $params = [
                 'userid' => $this->userid,
-                'component' => 'mod_gwpayments',
-                'courseid' => $this->context->instanceid,
-            ];
-        } else if ($this->context instanceof \context_module) {
-            $sql = 'SELECT DISTINCT ud.id, ud.cost, ud.currency, ud.timeexpire, ud.timecreated,
-                    p.id as paymentid, p.paymentarea
-                    FROM {gwpayments} gwp
-                    JOIN {payments} p ON (p.itemid = gwp.id AND p.component = :component)
-                    JOIN {gwpayments_userdata} ud ON (ud.gwpaymentsid = gwp.id AND p.userid = ud.userid AND ud.userid = :userid)
-                    JOIN {course_modules} cm ON (cm.instance = gwp.id AND cm.id = :cmid)
-                    ORDER BY ud.timecreated DESC';
-            $params = [
-                'userid' => $this->userid,
-                'component' => 'mod_gwpayments',
                 'cmid' => $this->context->instanceid,
             ];
         }

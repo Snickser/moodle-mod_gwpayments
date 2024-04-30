@@ -36,7 +36,7 @@ $string['completiondetail:submit'] = 'Make a payment';
 $string['completionsubmit'] = 'Users must pay for this course module for it to be considered complete, creating the possibility to unlock other resources.';
 $string['completiondisabled:label'] = 'Completion is disabled.';
 $string['completiondisabled:warning'] = 'Completion is disabled. This course module relies on course completion as a way of making other resources available.';
-$string['contentheader'] = 'Gateway payments settings';
+$string['contentheader'] = 'Module payment settings';
 $string['cost'] = 'Unlocking cost';
 $string['costduration'] = 'Unlock duration';
 $string['costduration_help'] = 'When setting an unlocking duration, this restricts the completion state to the given duration.<br/>
@@ -84,10 +84,24 @@ $string['status'] = 'Status';
 $string['status:active'] = 'Active';
 $string['status:expired'] = 'Expired';
 $string['studentdisplayonpayments'] = 'Allow view page for students?';
-$string['studentdisplayonpayments_help'] = 'Allows the student to access the module\'s view page when they\'ve paid.<br/>
-The view page only displays the information related to the current user\'s payment(s).';
+$string['studentdisplayonpayments_help'] = 'Allows the student to access the module\'s view page when they\'ve paid.
+The view page only displays the information related to the current user\'s payment(s).<br/>
+Or allows access to the viewing page, but Hide after payment.';
 $string['task:defaulttasks'] = 'Default tasks.';
 $string['timecreated'] = 'Time paid';
+$string['timemodified'] = 'Update time';
 $string['timeexpire'] = 'Expires';
 $string['vat'] = 'VAT';
 $string['vat_help'] = 'VAT percentage of course cost (note: course cost is including VAT).';
+$string['showamount'] = 'Show amount in payments table';
+$string['showallpayments'] = 'Show everyone who paid for the entire course';
+$string['mincosterror'] = 'Cost cannot be less than 0.01';
+$string['showduration'] = 'Show duration on page';
+$string['sendpaymentsummary'] = 'Click here if the payment button does not work on your device.';
+$string['addpaymentlink'] = 'Link to additional payment page';
+$string['addpaymentlink_help'] = 'If present, opens a section with a button for going to an additional payment page.';
+$string['addpaymentlinkempty'] = 'Can not be empty if payment account is disabled.';
+$string['hidepaymentaccount'] = 'Use only additional link';
+$string['hidepaymentaccount_help'] = 'This option replaces the link in the payment button with a link to the additional page.';
+$string['showcost'] = 'Show cost on page';
+$string['currency_help'] = 'Payment currency.';

@@ -27,7 +27,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require('../../config.php');
+require_once($CFG->dirroot.'/mod/gwpayments/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
+
 $id = required_param('id', PARAM_INT);
 $redirect = optional_param('redirect', 0, PARAM_BOOL);
 $referer = optional_param('referer', null, PARAM_URL);
@@ -49,11 +51,19 @@ $params = array(
     'objectid' => $gwpayment->id
 );
 
+
 $event = \mod_gwpayments\event\course_module_viewed::create($params);
 $event->add_record_snapshot('course_modules', $cm);
 $event->add_record_snapshot('course', $course);
 $event->add_record_snapshot('gwpayments', $gwpayment);
 $event->trigger();
+
+
+// show intro
+if(!$gwpayment->printintro){
+    $activityheader['description'] = '';
+    $PAGE->activityheader->set_attrs($activityheader);
+}
 
 if (isguestuser()) {
     // Guest account.
@@ -83,18 +93,65 @@ if (isguestuser()) {
 } else {
 
     $renderer = $PAGE->get_renderer('mod_gwpayments');
+
+    $pd = $renderer->get_paymentdetails($context, $USER->id);
+
+//    $pd = $DB->get_record('gwpayments_userdata', array('gwpaymentsid' => $cm->instance, 'userid' => $USER->id), '*', MUST_EXIST);
+
+
+        $data = new stdClass();
+        $data->component = 'mod_gwpayments';
+        $data->paymentarea = 'unlockfee';
+        $data->cost = $gwpayment->cost;
+        $data->description = $gwpayment->name;
+        $data->itemid = $cm->id;
+
+    if($gwpayment->showduration){
+        $enrolperiod = get_duration_desc($gwpayment->costduration);
+        $data->costduration = $enrolperiod[0];
+        $data->costduration_desc = $enrolperiod[1];
+    }
+
+        $data->localisedcost = \core_payment\helper::get_cost_as_string($gwpayment->cost, $gwpayment->currency);
+        $data->instanceid = $gwpayment->id;
+        $data->successurl = \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $gwpayment->id)->out(false);
+        $data->userid = $USER->id;
+        $data->locale = $USER->lang;
+        $data->disablepaymentbutton = false;
+        $data->hasnotifications = true;
+        $data->haspayments = $pd->haspayments;
+        $data->addpaymentlink = $gwpayment->addpaymentlink;
+        $data->hidepaymentaccount = $gwpayment->hidepaymentaccount;
+        $data->showcost = $gwpayment->showcost;
+
+//echo serialize($data->successurl);
+//die;
+
     // We can only see the overview when we have the correct capabilities.
     if (has_capability('mod/gwpayments:viewpayments', $context) || is_siteadmin()) {
+
         $table = new \mod_gwpayments\local\payments\table($context);
         $table->define_baseurl($PAGE->url);
-
         echo $OUTPUT->header();
-        echo $table->render(25);
+        echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+        echo $table->render(50, true, $gwpayment->showamount, $gwpayment->showallpayments);
         echo $OUTPUT->footer();
+
     } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {
+
         // Display state.
         echo $OUTPUT->header();
-        echo $renderer->paymentdetails($context, $USER->id);
+	if($pd->haspayments && ($pd->payments[0]->timeexpire > time() || $pd->payments[0]->timeexpire == 0) ){
+	    // show user table
+	    echo $renderer->paymentdetails($context, $USER->id);
+	} else {
+	    // show button
+	    echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	}
+        echo $OUTPUT->footer();
+
+    } else {
+        echo $OUTPUT->header();
         echo $OUTPUT->footer();
     }
 }

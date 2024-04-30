@@ -39,32 +39,20 @@ require_once(__DIR__ . '/deprecatedlib.php');
  */
 function gwpayments_supports($feature) {
     switch($feature) {
-        case FEATURE_MOD_ARCHETYPE:
-            return MOD_ARCHETYPE_OTHER;
-        case FEATURE_BACKUP_MOODLE2:
-            return true;
-        case FEATURE_MOD_INTRO:
-            return true;
-        case FEATURE_MODEDIT_DEFAULT_COMPLETION:
-            return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS:
-            return false;  // Completion will not track views :D.
-        case FEATURE_COMPLETION_HAS_RULES:
-            return true;  // We have a custom completion mechanism :D.
-        case FEATURE_SHOW_DESCRIPTION:
-            return true;
-        case FEATURE_GROUPS:
-            return false;
-        case FEATURE_GROUPINGS:
-            return false;
-        case FEATURE_GROUPMEMBERSONLY:
-            return false;
-        case FEATURE_GRADE_HAS_GRADE:
-            return false; // We have no grading mechanism :D.
-        case FEATURE_GRADE_OUTCOMES:
-            return false;
-        case FEATURE_NO_VIEW_LINK:
-            return false;
+        case FEATURE_MOD_ARCHETYPE:               return MOD_ARCHETYPE_OTHER;
+        case FEATURE_BACKUP_MOODLE2:              return true;
+        case FEATURE_MOD_INTRO:                   return true;
+        case FEATURE_MODEDIT_DEFAULT_COMPLETION:  return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:     return false; // Completion will not track views :D.
+        case FEATURE_COMPLETION_HAS_RULES:        return true;  // We have a custom completion mechanism :D.
+        case FEATURE_SHOW_DESCRIPTION:            return true;
+        case FEATURE_GROUPS:                      return false;
+        case FEATURE_GROUPINGS:                   return false;
+        case FEATURE_GROUPMEMBERSONLY:            return false;
+        case FEATURE_GRADE_HAS_GRADE:             return false; // We have no grading mechanism :D.
+        case FEATURE_GRADE_OUTCOMES:              return false;
+        case FEATURE_NO_VIEW_LINK:                return false;
+        case FEATURE_MOD_PURPOSE:                 return MOD_PURPOSE_COMMUNICATION;
 
         default:
             return null;
@@ -143,6 +131,7 @@ function gwpayments_update_instance($data, $mform) {
 
     $data->timemodified = time();
     $data->id           = $data->instance;
+
     $DB->update_record('gwpayments', $data);
 
     return true;
@@ -188,46 +177,62 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     global $DB, $USER, $OUTPUT;
 
     $instance = $DB->get_record('gwpayments', ['id' => $modinfo->instance], '*', MUST_EXIST);
-    $studentdisplayonpayments = (bool)$instance->studentdisplayonpayments;
+    $studentdisplayonpayments = (int)$instance->studentdisplayonpayments;
     $disablepaymentonmisconfig = (bool)$instance->disablepaymentonmisconfig;
 
     $notifications = [];
     $canpaymentbemade = \mod_gwpayments\local\helper::can_payment_be_made($modinfo, $notifications);
 
     // We're "complete" if there's a record and expiry limitations are not met.
+    $available = $modinfo->get_user_visible(); // show all
+//    $available = false;
+//    $uservisible = $modinfo->is_visible_on_course_page(); // show link
     $uservisible = false;
-    $available = true;
     $noviewlink = false;
     $injectpaymentbutton = false;
-    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && !is_siteadmin()) {
+
+//    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && !is_siteadmin()) {
+    if (has_capability('mod/gwpayments:submitpayment', $modinfo->context) && $available ) {
         // For those that can submit gwpayments.
-        $noviewlink = !$studentdisplayonpayments;
         $userdata = $DB->get_record_sql('SELECT * FROM {gwpayments_userdata}
                 WHERE gwpaymentsid = ?
                 AND userid = ?',
                 [$modinfo->instance, $USER->id]);
         if (empty($userdata)) {
-            $uservisible = true;
+//            $uservisible = true;
             $injectpaymentbutton = true;
         } else if ((int)$userdata->timeexpire > 0 && (int)$userdata->timeexpire < time()) {
-            $uservisible = true;
+//            $uservisible = true;
             $injectpaymentbutton = true;
-        } else if ((int)$userdata->timeexpire === 0) {
-            $uservisible = $studentdisplayonpayments;
-            $available = $studentdisplayonpayments;
+//        } else if ((int)$userdata->timeexpire === 0 ) {
+        } else if( !$studentdisplayonpayments || $studentdisplayonpayments==2 ) {
+//            $available = $studentdisplayonpayments;
+//            $uservisible = $studentdisplayonpayments;
+	    $modinfo->set_available(false);
         }
-    } else {
-        // For eveyone else.
-        $uservisible = true;
-        $available = true;
+    }
+
+    if($available){
+        if($studentdisplayonpayments){
+	    $uservisible = true;
+        } else {
+	    $noviewlink = false;
+//	    $uservisible = true; // enable for debug
+	}
+    }
+
+    if(is_siteadmin()){
+	$noviewlink = false;
+	$uservisible = true;
     }
 
     // We first must set availability/visibility before setting dynamic content (as this changes state)!
-    $modinfo->set_user_visible($uservisible);
-    $modinfo->set_available($available);
+//    $modinfo->set_available($available); // first
+    $modinfo->set_user_visible($uservisible); // after
     if ($noviewlink) {
         $modinfo->set_no_view_link();
     }
+
     $injectedcontent = '';
     if ($injectpaymentbutton) {
         // Create the payment button.
@@ -238,15 +243,24 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             'description' => $modinfo->get_formatted_name(),
             'successurl' => \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $instance->id)->out(false),
         ];
+        if($instance->showduration){
+	    $enrolperiod = get_duration_desc($instance->costduration);
+	    $data->costduration = $enrolperiod[0];
+	    $data->costduration_desc = $enrolperiod[1];
+        }
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
-        $data->vat = (int)$instance->vat;
-        $data->localisedcost = format_float($instance->cost, 2, true);
+//        $data->vat = (int)$instance->vat;
+        $data->localisedcost = \core_payment\helper::get_cost_as_string($instance->cost, $instance->currency);
         $data->locale = $USER->lang;
         $data->component = 'mod_gwpayments';
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
         $data->hasnotifications = false;
+        $data->hidepaymentaccount = $instance->hidepaymentaccount;
+        $data->addpaymentlink = $instance->addpaymentlink;
+        $data->showcost = $instance->showcost;
+
         if (!$canpaymentbemade && $disablepaymentonmisconfig) {
             $data->disablepaymentbutton = true;
         }
@@ -254,7 +268,11 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
             $data->hasnotifications = true;
             $data->notifications = [get_string('err:payment:misconfiguration', 'mod_gwpayments')];
         }
-        $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+
+	if(!$studentdisplayonpayments){
+	    $injectedcontent .= $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	}
+
     }
     if (!empty($notifications) && (has_capability('mod/gwpayments:addinstance', $modinfo->context) || is_siteadmin())) {
         $injectedcontent = html_writer::div(implode('<br/>', $notifications), 'alert alert-warning');
@@ -262,7 +280,6 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
     if (!empty($injectedcontent)) {
         $modinfo->set_content($modinfo->content . $injectedcontent);
     }
-
 }
 
 /**
@@ -323,3 +340,29 @@ function mod_gwpayments_get_completion_active_rule_descriptions($cm) {
     }
     return $descriptions;
 }
+
+
+function get_duration_desc($enrolperiod = 0){
+ $enrolperiod_desc = '';
+ if($enrolperiod){
+    if( $enrolperiod > 0 ){
+        if($enrolperiod>=86400*7){
+            $enrolperiod_desc = get_string('weeks');
+            $enrolperiod = $enrolperiod/(86400*7);
+        } else if($enrolperiod>=86400){
+            $enrolperiod_desc = get_string('days');
+            $enrolperiod = round($enrolperiod/86400);
+        } else if($enrolperiod>=3600) {
+            $enrolperiod_desc = get_string('hours');
+            $enrolperiod = round($enrolperiod/3600);
+        } else if($enrolperiod>=60) {
+            $enrolperiod_desc = get_string('minutes');
+            $enrolperiod = round($enrolperiod/60);
+        } else {
+            $enrolperiod_desc = get_string('seconds');
+        }
+    }
+ }
+ return array($enrolperiod, $enrolperiod_desc);
+}
+

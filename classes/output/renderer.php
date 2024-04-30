@@ -64,4 +64,11 @@ class renderer extends \plugin_renderer_base {
         return $this->render_from_template('mod_gwpayments/paymentdetails', $context);
     }
 
+
+    public function get_paymentdetails(context $context, $userid = null) {
+        $widget = new component\paymentdetails($context, $userid);
+        $data = $widget->export_for_template($this);
+        return $data;
+    }
+
 }

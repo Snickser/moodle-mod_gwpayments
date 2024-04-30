@@ -74,5 +74,43 @@ function xmldb_gwpayments_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021081601, 'mod', 'gwpayments');
     }
 
+    if ($oldversion < 3024040902) {
+        $table = new xmldb_table('gwpayments');
+        $field = new xmldb_field('costduration', XMLDB_TYPE_INTEGER, 18, null, null, null, '0', 'cost');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('printintro', XMLDB_TYPE_INTEGER, 1, null, null, null, '1', 'introformat');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('showamount', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'printintro');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('showallpayments', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'showamount');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('showduration', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'showallpayments');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('addpaymentlink', XMLDB_TYPE_CHAR, 255, null, null, null, null, 'showduration');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('hidepaymentaccount', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'addpaymentlink');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('showcost', XMLDB_TYPE_INTEGER, 1, null, null, null, '0', 'cost');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 3024040902, 'mod', 'gwpayments');
+    }
+
     return true;
 }
