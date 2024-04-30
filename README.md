@@ -10,6 +10,7 @@ Changes from original:
 + fix availability on course page
 + add additional payment link 
 + extended hide module function
++ password (for check in payment modules)
 
 ---
 SEBSOFT GATEWAY PAYMENTS COURSE MODULE
