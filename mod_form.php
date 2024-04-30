@@ -135,6 +135,11 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->setType('addpaymentlink', PARAM_TEXT);
         $mform->addHelpButton('addpaymentlink', 'addpaymentlink', 'mod_gwpayments');
 
+        $mform->addElement('text', 'password',
+                get_string('password', 'mod_gwpayments'), ['size' => 24]);
+        $mform->setType('password', PARAM_TEXT);
+        $mform->addHelpButton('password', 'password', 'mod_gwpayments');
+
 	$options = [1 => get_string('yes'), 0 => get_string('no'), 2 => get_string('hide')];
         $mform->addElement('select', 'studentdisplayonpayments',
                 get_string('studentdisplayonpayments', 'mod_gwpayments'), $options);

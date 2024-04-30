@@ -105,3 +105,5 @@ $string['hidepaymentaccount'] = 'Use only additional link';
 $string['hidepaymentaccount_help'] = 'This option replaces the link in the payment button with a link to the additional page.';
 $string['showcost'] = 'Show cost on page';
 $string['currency_help'] = 'Payment currency.';
+$string['password'] = 'Bypass password';
+$string['password_help'] = 'This password can be used by payment modules to bypass the payment. If they have such functionality.';
