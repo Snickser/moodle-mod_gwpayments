@@ -65,7 +65,7 @@ if(!$gwpayment->printintro){
     $PAGE->activityheader->set_attrs($activityheader);
 }
 
-
+/*
 if (isguestuser()) {
 
     // Guest account.
@@ -74,7 +74,8 @@ if (isguestuser()) {
                  get_login_url(), new moodle_url('/course/view.php', array('id' => $course->id)));
     echo $OUTPUT->footer();
 
-} else if (!is_enrolled($context) && !is_siteadmin()) {
+} else */
+if (!is_enrolled($context) && !is_siteadmin() && !isguestuser()) {
 
     // Only people enrolled can do anything.
     $SESSION->wantsurl = qualified_me();
@@ -96,11 +97,8 @@ if (isguestuser()) {
 } else {
 
     $renderer = $PAGE->get_renderer('mod_gwpayments');
-
     $pd = $renderer->get_paymentdetails($context, $USER->id);
-
 //    $pd = $DB->get_record('gwpayments_userdata', array('gwpaymentsid' => $cm->instance, 'userid' => $USER->id), '*', MUST_EXIST);
-
 
         $data = new stdClass();
         $data->component = 'mod_gwpayments';
@@ -109,7 +107,7 @@ if (isguestuser()) {
         $data->description = $gwpayment->name;
         $data->itemid = $cm->id;
 
-    if($gwpayment->showduration){
+    if ($gwpayment->showduration) {
         $enrolperiod = get_duration_desc($gwpayment->costduration);
         $data->costduration = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
@@ -119,7 +117,7 @@ if (isguestuser()) {
         $data->instanceid = $gwpayment->id;
         $data->successurl = \mod_gwpayments\payment\service_provider::get_success_url('gwpayments', $gwpayment->id)->out(false);
         $data->userid = $USER->id;
-        $data->locale = $USER->lang;
+        $data->locale = current_language();
         $data->disablepaymentbutton = false;
         $data->hasnotifications = true;
         $data->haspayments = $pd->haspayments;
