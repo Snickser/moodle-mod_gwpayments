@@ -66,10 +66,7 @@ if(!$gwpayment->printintro){
 }
 
 
-
 if (isguestuser()) {
-
-
 
     // Guest account.
     echo $OUTPUT->header();
@@ -78,8 +75,6 @@ if (isguestuser()) {
     echo $OUTPUT->footer();
 
 } else if (!is_enrolled($context) && !is_siteadmin()) {
-
-
 
     // Only people enrolled can do anything.
     $SESSION->wantsurl = qualified_me();
@@ -99,8 +94,6 @@ if (isguestuser()) {
     echo $OUTPUT->footer();
 
 } else {
-
-
 
     $renderer = $PAGE->get_renderer('mod_gwpayments');
 
@@ -161,8 +154,10 @@ if (isguestuser()) {
         echo $OUTPUT->footer();
 
     } else {
+
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template('mod_gwpayments/donate_region', $data);
         echo $OUTPUT->footer();
+
     }
 }
