@@ -65,7 +65,12 @@ if(!$gwpayment->printintro){
     $PAGE->activityheader->set_attrs($activityheader);
 }
 
+
+
 if (isguestuser()) {
+
+
+
     // Guest account.
     echo $OUTPUT->header();
     echo $OUTPUT->confirm(get_string('noguestchoose', 'choice').'<br /><br />'.get_string('liketologin'),
@@ -73,6 +78,9 @@ if (isguestuser()) {
     echo $OUTPUT->footer();
 
 } else if (!is_enrolled($context) && !is_siteadmin()) {
+
+
+
     // Only people enrolled can do anything.
     $SESSION->wantsurl = qualified_me();
     $SESSION->enrolcancel = (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
@@ -91,6 +99,8 @@ if (isguestuser()) {
     echo $OUTPUT->footer();
 
 } else {
+
+
 
     $renderer = $PAGE->get_renderer('mod_gwpayments');
 
@@ -152,6 +162,7 @@ if (isguestuser()) {
 
     } else {
         echo $OUTPUT->header();
+        echo $OUTPUT->render_from_template('mod_gwpayments/donate_region', $data);
         echo $OUTPUT->footer();
     }
 }
