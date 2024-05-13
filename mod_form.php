@@ -29,9 +29,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/page/locallib.php');
-require_once($CFG->libdir.'/filelib.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/mod/page/locallib.php');
+require_once($CFG->libdir . '/filelib.php');
 
 /**
  * gwpayments configuration form
@@ -43,7 +43,6 @@ require_once($CFG->libdir.'/filelib.php');
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_gwpayments_mod_form extends moodleform_mod {
-
     /**
      * Form definition.
      */
@@ -53,13 +52,13 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
         $config = get_config('gwpayments');
 
-//echo serialize($config);
-//die;
+        // echo serialize($config);
+        // die;
 
         // -------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        $mform->addElement('text', 'name', get_string('name'), array('size' => '48'));
+        $mform->addElement('text', 'name', get_string('name'), ['size' => '48']);
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -76,35 +75,41 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         // -------------------------------------------------------
         $mform->addElement('header', 'content', get_string('contentheader', 'mod_gwpayments'));
 
-//        $mform->addElement('textarea', 'page', get_string('content'), ['rows' => "10", 'cols' => "10"]);
+        // $mform->addElement('textarea', 'page', get_string('content'), ['rows' => "10", 'cols' => "10"]);
 
         $mform->addElement('float', 'cost', get_string('cost', 'mod_gwpayments'), ['size' => 7]);
-//        $mform->setType('cost', PARAM_FLOAT);
+        // $mform->setType('cost', PARAM_FLOAT);
         $mform->addRule('cost', null, 'required', null, 'client');
-//        $mform->addRule('cost', null, 'numeric', null, 'client');
+        // $mform->addRule('cost', null, 'numeric', null, 'client');
         $mform->setDefault('cost', $config->cost);
         $mform->addHelpButton('cost', 'cost', 'mod_gwpayments');
 
-        $mform->addElement('advcheckbox', 'showcost',
-                get_string('showcost', 'mod_gwpayments'),
-                get_string('showcost', 'mod_gwpayments'));
+        $mform->addElement(
+            'advcheckbox',
+            'showcost',
+            get_string('showcost', 'mod_gwpayments'),
+            get_string('showcost', 'mod_gwpayments')
+        );
         $mform->setType('showcost', PARAM_INT);
 
         // This is used for expiry determination.
-        $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), array('optional' => true));
-//        $mform->setDefault('costduration', 86400);
+        $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), ['optional' => true]);
+        // $mform->setDefault('costduration', 86400);
         $mform->addHelpButton('costduration', 'costduration', 'mod_gwpayments');
 
-        $mform->addElement('advcheckbox', 'showduration',
-                get_string('showduration', 'mod_gwpayments'),
-                get_string('showduration', 'mod_gwpayments'));
+        $mform->addElement(
+            'advcheckbox',
+            'showduration',
+            get_string('showduration', 'mod_gwpayments'),
+            get_string('showduration', 'mod_gwpayments')
+        );
         $mform->setType('showduration', PARAM_INT);
-/*
+        /*
         $mform->addElement('text', 'vat', get_string('vat', 'mod_gwpayments'), array('size' => 4));
         $mform->setType('vat', PARAM_RAW);
         $mform->setDefault('vat', $config->vat);
         $mform->addHelpButton('vat', 'vat', 'mod_gwpayments');
-*/
+        */
         $supportedcurrencies = \mod_gwpayments\local\helper::get_possible_currencies();
         $mform->addElement('select', 'currency', get_string('currency', 'mod_gwpayments'), $supportedcurrencies);
         $mform->setDefault('currency', $config->currency);
@@ -114,8 +119,12 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $accounts = \core_payment\helper::get_payment_accounts_menu($this->context);
         if (count($accounts) == 0) {
             // Add warning!
-            $mform->addElement('static', 'accountid_text', get_string('paymentaccount', 'payment'),
-                html_writer::span(get_string('noaccountsavilable', 'payment'), 'alert alert-danger'));
+            $mform->addElement(
+                'static',
+                'accountid_text',
+                get_string('paymentaccount', 'payment'),
+                html_writer::span(get_string('noaccountsavilable', 'payment'), 'alert alert-danger')
+            );
         }
         $accounts = ((count($accounts) > 1) ? ['' => ''] : []) + $accounts;
         $mform->addElement('select', 'accountid', get_string('paymentaccount', 'payment'), $accounts);
@@ -124,46 +133,69 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->disabledIf('accountid', 'hidepaymentaccount', "neq", 0);
         $mform->addRule('accountid', null, 'required', null, 'client');
 
-        $mform->addElement('advcheckbox', 'hidepaymentaccount',
-                get_string('hidepaymentaccount', 'mod_gwpayments'),
-                get_string('hidepaymentaccount', 'mod_gwpayments'));
+        $mform->addElement(
+            'advcheckbox',
+            'hidepaymentaccount',
+            get_string('hidepaymentaccount', 'mod_gwpayments'),
+            get_string('hidepaymentaccount', 'mod_gwpayments')
+        );
         $mform->setType('hidepaymentaccount', PARAM_INT);
         $mform->addHelpButton('hidepaymentaccount', 'hidepaymentaccount', 'mod_gwpayments');
 
-        $mform->addElement('text', 'addpaymentlink',
-                get_string('addpaymentlink', 'mod_gwpayments'), ['size' => 48]);
+        $mform->addElement(
+            'text',
+            'addpaymentlink',
+            get_string('addpaymentlink', 'mod_gwpayments'),
+            ['size' => 48]
+        );
         $mform->setType('addpaymentlink', PARAM_TEXT);
         $mform->addHelpButton('addpaymentlink', 'addpaymentlink', 'mod_gwpayments');
 
-        $mform->addElement('text', 'password',
-                get_string('password', 'mod_gwpayments'), ['size' => 24]);
+        $mform->addElement(
+            'passwordunmask',
+            'password',
+            get_string('password', 'mod_gwpayments'),
+            ['size' => 24]
+        );
         $mform->setType('password', PARAM_TEXT);
         $mform->addHelpButton('password', 'password', 'mod_gwpayments');
 
-	$options = [1 => get_string('yes'), 0 => get_string('no'), 2 => get_string('hide')];
-        $mform->addElement('select', 'studentdisplayonpayments',
-                get_string('studentdisplayonpayments', 'mod_gwpayments'), $options);
+        $options = [1 => get_string('yes'), 0 => get_string('no'), 2 => get_string('hide')];
+        $mform->addElement(
+            'select',
+            'studentdisplayonpayments',
+            get_string('studentdisplayonpayments', 'mod_gwpayments'),
+            $options
+        );
         $mform->setType('studentdisplayonpayments', PARAM_INT);
         $mform->setDefault('studentdisplayonpayments', $config->studentdisplayonpayments);
         $mform->addHelpButton('studentdisplayonpayments', 'studentdisplayonpayments', 'mod_gwpayments');
 
-        $mform->addElement('advcheckbox', 'disablepaymentonmisconfig',
-                get_string('disablepaymentonmisconfig', 'mod_gwpayments'),
-                get_string('disablepaymentonmisconfig', 'mod_gwpayments'));
+        $mform->addElement(
+            'advcheckbox',
+            'disablepaymentonmisconfig',
+            get_string('disablepaymentonmisconfig', 'mod_gwpayments'),
+            get_string('disablepaymentonmisconfig', 'mod_gwpayments')
+        );
         $mform->setType('disablepaymentonmisconfig', PARAM_INT);
         $mform->setDefault('disablepaymentonmisconfig', $config->disablepaymentonmisconfig);
         $mform->addHelpButton('disablepaymentonmisconfig', 'disablepaymentonmisconfig', 'mod_gwpayments');
 
-        $mform->addElement('advcheckbox', 'showamount',
-                get_string('showamount', 'mod_gwpayments'),
-                get_string('showamount', 'mod_gwpayments'));
+        $mform->addElement(
+            'advcheckbox',
+            'showamount',
+            get_string('showamount', 'mod_gwpayments'),
+            get_string('showamount', 'mod_gwpayments')
+        );
         $mform->setType('showamount', PARAM_INT);
 
-        $mform->addElement('advcheckbox', 'showallpayments',
-                get_string('showallpayments', 'mod_gwpayments'),
-                get_string('showallpayments', 'mod_gwpayments'));
+        $mform->addElement(
+            'advcheckbox',
+            'showallpayments',
+            get_string('showallpayments', 'mod_gwpayments'),
+            get_string('showallpayments', 'mod_gwpayments')
+        );
         $mform->setType('showallpayments', PARAM_INT);
-
 
         $mform->setExpanded('content');
 
@@ -176,8 +208,12 @@ class mod_gwpayments_mod_form extends moodleform_mod {
             $this->_form->setConstant('completion', COMPLETION_TRACKING_AUTOMATIC);
             $this->_form->freeze('completion');
         } else {
-            $mform->addElement('static', 'completiondisabled', get_string('completiondisabled:label', 'mod_gwpayments'),
-                    get_string('completiondisabled:warning', 'mod_gwpayments'));
+            $mform->addElement(
+                'static',
+                'completiondisabled',
+                get_string('completiondisabled:label', 'mod_gwpayments'),
+                get_string('completiondisabled:warning', 'mod_gwpayments')
+            );
             $mform->closeHeaderBefore('completiondisabled');
         }
         // -------------------------------------------------------
@@ -202,7 +238,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement('static', '_completionsubmit', '', $img . ' ' . get_string('completionsubmit', 'mod_gwpayments'));
         $mform->addElement('hidden', 'completionsubmit', 1);
         $mform->setType('completionsubmit', PARAM_INT);
-        return array('_completionsubmit', 'completionsubmit');
+        return ['_completionsubmit', 'completionsubmit'];
     }
 
     /**
@@ -226,14 +262,14 @@ class mod_gwpayments_mod_form extends moodleform_mod {
      * @param array $defaultvalues passed by reference
      */
     public function data_preprocessing(&$defaultvalues) {
-/*
+        /*
         if (!empty($defaultvalues['advoptions'])) {
             $advoptions = (array) unserialize_array($defaultvalues['advoptions']);
             if (isset($advoptions['printintro'])) {
                 $defaultvalues['printintro'] = $advoptions['printintro'];
             }
         }
-*/
+        */
     }
 
     /**
@@ -266,12 +302,14 @@ class mod_gwpayments_mod_form extends moodleform_mod {
 
         // Validating Entered gwpayments, we are looking for obvious problems only,
         // teachers are responsible for testing if it actually works.
-	if( $data['cost'] < 0.01 ) $errors['cost'] = get_string('mincosterror', 'mod_gwpayments');
+        if ($data['cost'] < 0.01) {
+            $errors['cost'] = get_string('mincosterror', 'mod_gwpayments');
+        }
 
-	if( $data['hidepaymentaccount'] && empty($data['addpaymentlink']) )
-	    $errors['addpaymentlink'] = get_string('addpaymentlinkempty', 'mod_gwpayments');
+        if ($data['hidepaymentaccount'] && empty($data['addpaymentlink'])) {
+            $errors['addpaymentlink'] = get_string('addpaymentlinkempty', 'mod_gwpayments');
+        }
 
         return $errors;
     }
-
 }
