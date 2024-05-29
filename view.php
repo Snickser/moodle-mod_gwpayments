@@ -101,15 +101,15 @@ if (!is_enrolled($context) && !is_siteadmin() && !isguestuser()) {
 //    $pd = $DB->get_record('gwpayments_userdata', array('gwpaymentsid' => $cm->instance, 'userid' => $USER->id), '*', MUST_EXIST);
 
         $data = new stdClass();
-        $data->component = 'mod_gwpayments';
+        $data->component   = 'mod_gwpayments';
         $data->paymentarea = 'unlockfee';
-        $data->cost = $gwpayment->cost;
+        $data->cost        = $gwpayment->cost;
         $data->description = $gwpayment->name;
-        $data->itemid = $cm->id;
+        $data->itemid      = $cm->id;
 
     if ($gwpayment->showduration) {
         $enrolperiod = get_duration_desc($gwpayment->costduration);
-        $data->costduration = $enrolperiod[0];
+        $data->costduration      = $enrolperiod[0];
         $data->costduration_desc = $enrolperiod[1];
     }
 
@@ -125,7 +125,7 @@ if (!is_enrolled($context) && !is_siteadmin() && !isguestuser()) {
         $data->hidepaymentaccount = $gwpayment->hidepaymentaccount;
         $data->showcost = $gwpayment->showcost;
 
-//echo serialize($data->successurl);
+//echo serialize($course);
 //die;
 
     // We can only see the overview when we have the correct capabilities.
@@ -134,11 +134,15 @@ if (!is_enrolled($context) && !is_siteadmin() && !isguestuser()) {
         $table = new \mod_gwpayments\local\payments\table($context);
         $table->define_baseurl($PAGE->url);
         echo $OUTPUT->header();
-        echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	if ($course->id == 1) {
+            echo $OUTPUT->render_from_template('mod_gwpayments/donate_region', $data);
+        } else {
+            echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	}
         echo $table->render(50, true, $gwpayment->showamount, $gwpayment->showallpayments);
         echo $OUTPUT->footer();
 
-    } else if (has_capability('mod/gwpayments:submitpayment', $context) && !is_siteadmin()) {
+    } else if (has_capability('mod/gwpayments:submitpayment', $context)) {
 
         // Display state.
         echo $OUTPUT->header();
