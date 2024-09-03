@@ -34,7 +34,7 @@ $string['promodesc'] = 'Этот плагин написан Sebsoft Managed Hos
 
 $string['amount'] = 'Сумма';
 
-$string['completiondetail:submit'] = 'Сделать платеж';
+$string['completiondetail:submit'] = 'Сделать платёж';
 $string['completionsubmit'] = 'Пользователи должны оплатить этот модуль курса, чтобы он считался завершенным, что дает возможность разблокировать другие ресурсы.';
 
 $string['completiondisabled:label'] = 'Завершение отключено.';
@@ -60,8 +60,8 @@ $string['err:payment:misconfiguration'] = 'Из-за неправильной к
 Если это сообщение повторяется, сообщите об этом системному администратору.';
 
 $string['err:no-payment-account-set'] = 'Для этого действия не установлен счет оплаты.';
-$string['err:payment-account-not-exists'] = 'Платежный счет для этой активности больше не существует.';
-$string['err:payment-account-unavailable'] = 'Платежный счет для этой активности недоступен.';
+$string['err:payment-account-not-exists'] = 'Платёжный счет для этой активности больше не существует.';
+$string['err:payment-account-unavailable'] = 'Платёжный счет для этой активности недоступен.';
 $string['err:payment-no-available-gateways'] = 'Для этой активности нет доступных шлюзов. Обычно это происходит, когда ожидаемая валюта недоступна для любого шлюза или один или несколько шлюзов отключены.';
 
 $string['event:order:delivered'] = 'Заказ доставлен';
@@ -71,7 +71,7 @@ $string['gwpayments:addinstance'] = 'Добавить новый ресурс Ga
 $string['gwpayments:view'] = 'Просмотреть модуль';
 
 $string['gwpayments:viewpayments'] = 'Просмотреть обзор платежей';
-$string['gwpayments:submitpayment'] = 'Отправить платеж';
+$string['gwpayments:submitpayment'] = 'Отправить платёж';
 
 $string['pluginname'] = 'Gateway Payments';
 $string['modulename'] = 'Gateway Payments';
@@ -84,29 +84,29 @@ $string['modulename_link'] = 'mod/gwpayments/view';
 $string['modulenameplural'] = 'Платежи';
 
 $string['no-payment-yet'] = 'Вы еще не вносили оплату.';
-$string['disablepaymentonmisconfig'] = 'Отключить кнопку оплаты, если невозможно выполнить (действительный) платеж.';
-$string['disablepaymentonmisconfig_help'] = 'Если эта опция включена, кнопка оплаты будет отключена, если невозможно выполнить платеж, например, из-за несоответствия валют или отсутствия доступных шлюзов';
-$string['notenrolledchoose'] = 'Для выполнения платежных действий вам необходимо быть зачисленным на этот курс.';
+$string['disablepaymentonmisconfig'] = 'Отключить кнопку оплаты, если невозможно выполнить (действительный) платёж.';
+$string['disablepaymentonmisconfig_help'] = 'Если эта опция включена, кнопка оплаты будет отключена, если невозможно выполнить платёж, например, из-за несоответствия валют или отсутствия доступных шлюзов';
+$string['notenrolledchoose'] = 'Для выполнения платёжных действий вам необходимо быть зачисленным на этот курс.';
 $string['page-mod-gwpayments-x'] = 'Любая страница модуля курса «Платежи через шлюзы»';
 
-$string['paymentaccount'] = 'Платежный счет';
+$string['paymentaccount'] = 'Платёжный счет';
 $string['paymentaccount_help'] = 'Сборы за разблокировку будут перечислены на этот счет.';
 
 $string['pluginadministration'] = 'Администрирование модуля Gateway Payments';
 $string['privacy:metadata:database:gwpayments'] = 'Информация о платежах модуля курса Gateway Payments.';
 $string['privacy:metadata:database:gwpayments:amount'] = 'Сумма платежа.';
 $string['privacy:metadata:database:gwpayments:currency'] = 'Валюта платежа.';
-$string['privacy:metadata:database:gwpayments:timecreated'] = 'Время, когда был совершен платеж.';
-$string['privacy:metadata:database:gwpayments:timeexpire'] = 'Время, когда платеж будет считаться просроченным.';
-$string['privacy:metadata:database:gwpayments:timemodified'] = 'Время последнего обновления платежной записи.';
-$string['privacy:metadata:database:gwpayments:userid'] = 'Пользователь, совершивший платеж.';
+$string['privacy:metadata:database:gwpayments:timecreated'] = 'Время, когда был совершен платёж.';
+$string['privacy:metadata:database:gwpayments:timeexpire'] = 'Время, когда платёж будет считаться просроченным.';
+$string['privacy:metadata:database:gwpayments:timemodified'] = 'Время последнего обновления платёжной записи.';
+$string['privacy:metadata:database:gwpayments:userid'] = 'Пользователь, совершивший платёж.';
 $string['sendpaymentbutton'] = 'Выберите тип платежа';
 
 $string['status'] = 'Статус';
 
 $string['status:active'] = 'Активен';
 
-$string['status:expired'] = 'Истек';
+$string['status:expired'] = 'Истёк';
 
 $string['studentdisplayonpayments'] = 'Разрешить просмотр страницы для студентов?';
 
@@ -139,11 +139,11 @@ $string['addpaymentlink'] = 'Ссылка на дополнительную ст
 
 $string['addpaymentlink_help'] = 'Если присутствует, открывает раздел с кнопкой для перехода на дополнительную страницу оплаты.';
 
-$string['addpaymentlinkempty'] = 'Не может быть пустым, если платежный счет отключен.';
+$string['addpaymentlinkempty'] = 'Не может быть пустым, если платёжный счет отключен.';
 
 $string['hidepaymentaccount'] = 'Использовать только дополнительную ссылку';
 $string['hidepaymentaccount_help'] = 'Эта опция заменяет ссылку в кнопке оплаты на ссылку на дополнительную страницу.';
 $string['showcost'] = 'Показать стоимость на странице';
 $string['currency_help'] = 'Валюта платежа.';
 $string['password'] = 'Обходной пароль';
-$string['password_help'] = 'Этот пароль может использоваться платежными модулями для обхода платежа. Если у них есть такая функциональность.';
+$string['password_help'] = 'Этот пароль может использоваться платёжными модулями для обхода платежа. Если у них есть такая функциональность.';
