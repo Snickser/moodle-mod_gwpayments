@@ -122,12 +122,12 @@ class mod_gwpayments_mod_form extends moodleform_mod {
             $mform->addElement(
                 'static',
                 'accountid_text',
-                get_string('paymentaccount', 'payment'),
+                get_string('paymentaccount', 'mod_gwpayments'),
                 html_writer::span(get_string('noaccountsavilable', 'payment'), 'alert alert-danger')
             );
         }
         $accounts = ((count($accounts) > 1) ? ['' => ''] : []) + $accounts;
-        $mform->addElement('select', 'accountid', get_string('paymentaccount', 'payment'), $accounts);
+        $mform->addElement('select', 'accountid', get_string('paymentaccount', 'mod_gwpayments'), $accounts);
         $mform->setType('accountid', PARAM_INT);
         $mform->addHelpButton('accountid', 'paymentaccount', 'mod_gwpayments');
         $mform->disabledIf('accountid', 'hidepaymentaccount', "neq", 0);
@@ -206,7 +206,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $completion = new completion_info($COURSE);
         if ($completion->is_enabled()) {
             $this->_form->setConstant('completion', COMPLETION_TRACKING_AUTOMATIC);
-            $this->_form->freeze('completion');
+//            $this->_form->freeze('completion');
         } else {
             $mform->addElement(
                 'static',
