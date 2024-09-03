@@ -59,9 +59,9 @@ $string['err:table:set_sql'] = 'Невозможно установить sql: �
 $string['err:payment:misconfiguration'] = 'Из-за неправильной конфигурации в настоящее время оплата не может быть произведена.<br/>
 Если это сообщение повторяется, сообщите об этом системному администратору.';
 
-$string['err:no-payment-account-set'] = 'Для этого действия не установлен счет оплаты.';
-$string['err:payment-account-not-exists'] = 'Платёжный счет для этой активности больше не существует.';
-$string['err:payment-account-unavailable'] = 'Платёжный счет для этой активности недоступен.';
+$string['err:no-payment-account-set'] = 'Для этого действия не установлен счёт оплаты.';
+$string['err:payment-account-not-exists'] = 'Платёжный счёт для этой активности больше не существует.';
+$string['err:payment-account-unavailable'] = 'Платёжный счёт для этой активности недоступен.';
 $string['err:payment-no-available-gateways'] = 'Для этой активности нет доступных шлюзов. Обычно это происходит, когда ожидаемая валюта недоступна для любого шлюза или один или несколько шлюзов отключены.';
 
 $string['event:order:delivered'] = 'Заказ доставлен';
@@ -89,8 +89,8 @@ $string['disablepaymentonmisconfig_help'] = 'Если эта опция вклю
 $string['notenrolledchoose'] = 'Для выполнения платёжных действий вам необходимо быть зачисленным на этот курс.';
 $string['page-mod-gwpayments-x'] = 'Любая страница модуля курса «Платежи через шлюзы»';
 
-$string['paymentaccount'] = 'Платёжный счет';
-$string['paymentaccount_help'] = 'Сборы за разблокировку будут перечислены на этот счет.';
+$string['paymentaccount'] = 'Платёжный счёт';
+$string['paymentaccount_help'] = 'Сборы за разблокировку будут перечислены на этот счёт.';
 
 $string['pluginadministration'] = 'Администрирование модуля Gateway Payments';
 $string['privacy:metadata:database:gwpayments'] = 'Информация о платежах модуля курса Gateway Payments.';
@@ -139,7 +139,7 @@ $string['addpaymentlink'] = 'Ссылка на дополнительную ст
 
 $string['addpaymentlink_help'] = 'Если присутствует, открывает раздел с кнопкой для перехода на дополнительную страницу оплаты.';
 
-$string['addpaymentlinkempty'] = 'Не может быть пустым, если платёжный счет отключен.';
+$string['addpaymentlinkempty'] = 'Не может быть пустым, если платёжный счёт отключен.';
 
 $string['hidepaymentaccount'] = 'Использовать только дополнительную ссылку';
 $string['hidepaymentaccount_help'] = 'Эта опция заменяет ссылку в кнопке оплаты на ссылку на дополнительную страницу.';
