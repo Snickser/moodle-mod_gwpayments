@@ -87,7 +87,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'showcost',
-            get_string('showcost', 'mod_gwpayments'),
             get_string('showcost', 'mod_gwpayments')
         );
         $mform->setType('showcost', PARAM_INT);
@@ -100,7 +99,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'showduration',
-            get_string('showduration', 'mod_gwpayments'),
             get_string('showduration', 'mod_gwpayments')
         );
         $mform->setType('showduration', PARAM_INT);
@@ -136,7 +134,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'hidepaymentaccount',
-            get_string('hidepaymentaccount', 'mod_gwpayments'),
             get_string('hidepaymentaccount', 'mod_gwpayments')
         );
         $mform->setType('hidepaymentaccount', PARAM_INT);
@@ -174,7 +171,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'disablepaymentonmisconfig',
-            get_string('disablepaymentonmisconfig', 'mod_gwpayments'),
             get_string('disablepaymentonmisconfig', 'mod_gwpayments')
         );
         $mform->setType('disablepaymentonmisconfig', PARAM_INT);
@@ -184,7 +180,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'showamount',
-            get_string('showamount', 'mod_gwpayments'),
             get_string('showamount', 'mod_gwpayments')
         );
         $mform->setType('showamount', PARAM_INT);
@@ -192,7 +187,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement(
             'advcheckbox',
             'showallpayments',
-            get_string('showallpayments', 'mod_gwpayments'),
             get_string('showallpayments', 'mod_gwpayments')
         );
         $mform->setType('showallpayments', PARAM_INT);
