@@ -42,9 +42,9 @@ function gwpayments_supports($feature) {
         case FEATURE_MOD_ARCHETYPE:               return MOD_ARCHETYPE_OTHER;
         case FEATURE_BACKUP_MOODLE2:              return true;
         case FEATURE_MOD_INTRO:                   return true;
-        case FEATURE_MODEDIT_DEFAULT_COMPLETION:  return false;
+        case FEATURE_MODEDIT_DEFAULT_COMPLETION:  return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS:     return false; // Completion will not track views :D.
-        case FEATURE_COMPLETION_HAS_RULES:        return true;  // We have a custom completion mechanism :D.
+        case FEATURE_COMPLETION_HAS_RULES:        return true; // We have a custom completion mechanism :D.
         case FEATURE_SHOW_DESCRIPTION:            return true;
         case FEATURE_GROUPS:                      return false;
         case FEATURE_GROUPINGS:                   return false;
@@ -252,7 +252,7 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         $data->currency = $instance->currency;
 //        $data->vat = (int)$instance->vat;
         $data->localisedcost = \core_payment\helper::get_cost_as_string($instance->cost, $instance->currency);
-        $data->locale = $USER->lang;
+        $data->locale = current_language();
         $data->component = 'mod_gwpayments';
         $data->paymentarea = 'unlockfee';
         $data->disablepaymentbutton = false;
@@ -348,7 +348,7 @@ function get_duration_desc($enrolperiod = 0){
     if( $enrolperiod > 0 ){
         if($enrolperiod>=86400*7){
             $enrolperiod_desc = get_string('weeks');
-            $enrolperiod = $enrolperiod/(86400*7);
+            $enrolperiod = round($enrolperiod/(86400*7));
         } else if($enrolperiod>=86400){
             $enrolperiod_desc = get_string('days');
             $enrolperiod = round($enrolperiod/86400);
