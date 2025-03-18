@@ -94,7 +94,7 @@ class service_provider implements \core_payment\local\callback\service_provider 
 
         $data = $DB->get_record('gwpayments', ['id' => $instanceid], '*', MUST_EXIST);
 
-	if (isset($data->coursemodule) && $data->coursemodule && $data->studentdisplayonpayments || is_siteadmin()) {
+	if (isset($data->coursemodule) && $data->coursemodule && ($data->studentdisplayonpayments || is_siteadmin())) {
             return new \moodle_url('/mod/gwpayments/view.php', ['id' => $data->coursemodule]);
 	} else {
             return new \moodle_url('/course/view.php', ['id' => $data->course]);
