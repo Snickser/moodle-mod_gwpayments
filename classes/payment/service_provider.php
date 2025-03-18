@@ -92,9 +92,13 @@ class service_provider implements \core_payment\local\callback\service_provider 
     public static function get_success_url(string $paymentarea, int $instanceid): \moodle_url {
         global $DB;
 
-        $courseid = $DB->get_field('gwpayments', 'course', ['id' => $instanceid], MUST_EXIST);
+        $data = $DB->get_record('gwpayments', ['id' => $instanceid], '*', MUST_EXIST);
 
-        return new \moodle_url('/course/view.php', ['id' => $courseid]);
+	if (isset($data->coursemodule) && $data->coursemodule && $data->studentdisplayonpayments || is_siteadmin()) {
+            return new \moodle_url('/mod/gwpayments/view.php', ['id' => $data->coursemodule]);
+	} else {
+            return new \moodle_url('/course/view.php', ['id' => $data->course]);
+        }
     }
 
     /**
