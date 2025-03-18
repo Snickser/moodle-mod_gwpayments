@@ -39,17 +39,16 @@ if ($ADMIN->fulltree) {
         );
         $settings->add(new admin_setting_heading('mod_gwpayments_nocurrency', '', $OUTPUT->render($notify)));
     }
-/*
-    // Logo.
-    $image = '<a href="http://www.sebsoft.nl" target="_new"><img src="' .
-            $OUTPUT->image_url('logo', 'mod_gwpayments') . '" /></a>&nbsp;&nbsp;&nbsp;';
-    $donate = '<a href="https://customerpanel.sebsoft.nl/sebsoft/donate/intro.php" target="_new">' .
-            '<img src="' . $OUTPUT->image_url('donate', 'block_coupon') . '" /></a>';
-    $header = '<div class="mod_gwpayments-logopromo">' . $image . $donate . '</div>';
-    $settings->add(new admin_setting_heading('mod_gwpayments_logopromo',
-            get_string('promo', 'mod_gwpayments'),
-            get_string('promodesc', 'mod_gwpayments', $header)));
-*/
+
+    $plugininfo = \core_plugin_manager::instance()->get_plugin_info('mod_gwpayments');
+    $donate = get_string('donate', 'mod_gwpayments', $plugininfo);
+
+    $settings->add(new admin_setting_heading(
+        'mod_gwpayments_settings',
+        '',
+        $donate,
+    ));
+
     require_once("$CFG->libdir/resourcelib.php");
     // Modedit defaults.
     $settings->add(new admin_setting_heading('urlmodeditdefaults',
