@@ -200,7 +200,7 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $completion = new completion_info($COURSE);
         if ($completion->is_enabled()) {
             $this->_form->setConstant('completion', COMPLETION_TRACKING_AUTOMATIC);
-//            $this->_form->freeze('completion');
+            $this->_form->freeze('completion');
         } else {
             $mform->addElement(
                 'static',
@@ -211,7 +211,17 @@ class mod_gwpayments_mod_form extends moodleform_mod {
             $mform->closeHeaderBefore('completiondisabled');
         }
         // -------------------------------------------------------
+
+        $mform->addElement('header', 'donate', '');
+        $mform->setExpanded('donate');
+
+        $plugininfo = \core_plugin_manager::instance()->get_plugin_info('mod_gwpayments');
+        $donate = get_string('donate', 'mod_gwpayments', $plugininfo);
+        $mform->addElement('html', $donate);
+
+        // -------------------------------------------------------
         $this->add_action_buttons();
+
     }
 
     /**
