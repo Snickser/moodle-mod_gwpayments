@@ -116,5 +116,16 @@ function xmldb_gwpayments_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 3024043000, 'mod', 'gwpayments');
     }
 
+    if ($oldversion < 3025031800) {
+        $table = new xmldb_table('gwpayments');
+        $field = new xmldb_field('coursemodule', XMLDB_TYPE_INTEGER, 10, null, null, null, null, 'course');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 3025031800, 'mod', 'gwpayments');
+    }
+
+
     return true;
 }

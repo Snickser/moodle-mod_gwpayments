@@ -93,7 +93,6 @@ class service_provider implements \core_payment\local\callback\service_provider 
         global $DB;
 
         $courseid = $DB->get_field('gwpayments', 'course', ['id' => $instanceid], MUST_EXIST);
-
         return new \moodle_url('/course/view.php', ['id' => $courseid]);
     }
 
