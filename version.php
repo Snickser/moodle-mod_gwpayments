@@ -32,4 +32,4 @@ $plugin->version     = 3025031801;
 $plugin->requires    = 2023100900; // Moodle 4.3+
 $plugin->component = 'mod_gwpayments';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.0';
+$plugin->release = '2.0.1';
