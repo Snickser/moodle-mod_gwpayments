@@ -11,3 +11,5 @@ Changes from original:
 + add additional payment link 
 + extended hide module function
 + password (for check in payment modules)
+
+![изображение](https://github.com/user-attachments/assets/d4ed1f33-1b74-43ee-962d-cfcfde4a0e34)
