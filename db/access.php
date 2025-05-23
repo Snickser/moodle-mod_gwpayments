@@ -29,48 +29,48 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$capabilities = array(
-    'mod/gwpayments:addinstance' => array(
+$capabilities = [
+    'mod/gwpayments:addinstance' => [
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ),
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
+    ],
 
-    'mod/gwpayments:viewpayments' => array(
+    'mod/gwpayments:viewpayments' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'student' => CAP_PREVENT,
             'teacher' => CAP_PREVENT,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/gwpayments:view' => array(
+    'mod/gwpayments:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'guest' => CAP_ALLOW,
-            'user' => CAP_ALLOW
-        )
-    ),
+            'user' => CAP_ALLOW,
+        ],
+    ],
 
-    'mod/gwpayments:submitpayment' => array(
+    'mod/gwpayments:submitpayment' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => array(
+        'archetypes' => [
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 
-);
+];

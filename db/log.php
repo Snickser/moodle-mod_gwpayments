@@ -29,9 +29,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$logs = array(
-    array('module' => 'gwpayments', 'action' => 'view', 'mtable' => 'gwpayments', 'field' => 'name'),
-    array('module' => 'gwpayments', 'action' => 'view all', 'mtable' => 'gwpayments', 'field' => 'name'),
-    array('module' => 'gwpayments', 'action' => 'update', 'mtable' => 'gwpayments', 'field' => 'name'),
-    array('module' => 'gwpayments', 'action' => 'add', 'mtable' => 'gwpayments', 'field' => 'name'),
-);
+$logs = [
+    ['module' => 'gwpayments', 'action' => 'view', 'mtable' => 'gwpayments', 'field' => 'name'],
+    ['module' => 'gwpayments', 'action' => 'view all', 'mtable' => 'gwpayments', 'field' => 'name'],
+    ['module' => 'gwpayments', 'action' => 'update', 'mtable' => 'gwpayments', 'field' => 'name'],
+    ['module' => 'gwpayments', 'action' => 'add', 'mtable' => 'gwpayments', 'field' => 'name'],
+];
