@@ -42,7 +42,7 @@ $tasks = [
     [
         'classname' => 'mod_gwpayments\task\send_expiry_notifications',
         'blocking' => 0,
-        'minute' => '*/15',
+        'minute' => '15',
         'hour' => '*',
         'day' => '*',
         'month' => '*',
