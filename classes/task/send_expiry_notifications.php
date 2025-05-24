@@ -52,7 +52,7 @@ class send_expiry_notifications extends \core\task\scheduled_task {
         $ctime = time();
 
 	$uds = $DB->get_records_sql('SELECT * FROM {gwpayments_userdata}
-	    WHERE timeexpire<? AND notified<timeexpire', [ $ctime ]);
+	    WHERE timeexpire>? AND notified<timeexpire', [ $ctime ]);
 
 	foreach ($uds as $data) {
 	    // Get instance info.
@@ -62,7 +62,7 @@ class send_expiry_notifications extends \core\task\scheduled_task {
             if (!$gwp->expirynotify) {
                 continue;
             }
-/*
+
     	    // Check periods.
     	    if (
     		($data->timeexpire - $ctime - $gwp->expirynotify) > 0 ||
@@ -71,7 +71,7 @@ class send_expiry_notifications extends \core\task\scheduled_task {
     		mtrace($data->userid . ' ' . $data->timeexpire - $ctime - $gwp->expirynotify);
     		continue;
     	    }
-*/
+
 	    // Get user data.
             if (!$user = $DB->get_record('user', ['id' => $data->userid])) {
                 mtrace("$data->userid not found");

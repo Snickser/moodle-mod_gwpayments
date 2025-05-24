@@ -131,8 +131,7 @@ function gwpayments_update_instance($data, $mform) {
 
     $data->timemodified = time();
     $data->id           = $data->instance;
-
-    $DB->update_record('gwpayments', $data);
+    $DB->update_record('gwpayments', $data, true);
 
     return true;
 }
@@ -198,13 +197,16 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
                 WHERE gwpaymentsid = ?
                 AND userid = ?',
                 [$modinfo->instance, $USER->id]);
+
         if (empty($userdata)) {
 //            $uservisible = true;
             $injectpaymentbutton = true;
-        } else if ((int)$userdata->timeexpire > 0 && (int)$userdata->timeexpire < time()) {
+        } else if ($userdata->timeexpire > 0 && $userdata->timeexpire < time()) {
 //            $uservisible = true;
             $injectpaymentbutton = true;
 //        } else if ((int)$userdata->timeexpire === 0 ) {
+        } else if (time() - $userdata->timeexpire + $instance->expirynotify >= 0 && $instance->expirynotify && $userdata->timeexpire) {
+            $injectpaymentbutton = true;
         } else if( !$studentdisplayonpayments || $studentdisplayonpayments==2 ) {
 //            $available = $studentdisplayonpayments;
 //            $uservisible = $studentdisplayonpayments;
@@ -250,7 +252,6 @@ function gwpayments_cm_info_dynamic(cm_info $modinfo) {
         }
         $data->userid = $USER->id;
         $data->currency = $instance->currency;
-//        $data->vat = (int)$instance->vat;
         $data->localisedcost = \core_payment\helper::get_cost_as_string($instance->cost, $instance->currency);
         $data->locale = current_language();
         $data->component = 'mod_gwpayments';

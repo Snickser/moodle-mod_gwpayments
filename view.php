@@ -125,7 +125,7 @@ if (!is_enrolled($context) && !is_siteadmin() && !isguestuser()) {
         $data->hidepaymentaccount = $gwpayment->hidepaymentaccount;
         $data->showcost = $gwpayment->showcost;
 
-//echo serialize($course);
+//echo serialize($gwpayment);
 //die;
 
     // We can only see the overview when we have the correct capabilities.
@@ -147,10 +147,14 @@ if (!is_enrolled($context) && !is_siteadmin() && !isguestuser()) {
         // Display state.
         echo $OUTPUT->header();
 	if($pd->haspayments && ($pd->payments[0]->timeexpire > time() || $pd->payments[0]->timeexpire == 0) ){
-	    // show user table
+	    // Show button if expiry soon.
+	    if ($pd->payments[0]->timeexpire-time() <= $gwpayment->expirynotify) {
+		echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
+	    }
+	    // Show user table.
 	    echo $renderer->paymentdetails($context, $USER->id);
 	} else {
-	    // show button
+	    // Show button.
 	    echo $OUTPUT->render_from_template('mod_gwpayments/payment_region', $data);
 	}
         echo $OUTPUT->footer();

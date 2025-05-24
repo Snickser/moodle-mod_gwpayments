@@ -118,7 +118,7 @@ $string['sendexpirynotificationstask'] = 'Send expiry notifications task';
 $string['expiredmessagesubject'] = 'Expiry notice';
 $string['expiredmessagebody'] = 'Dear {$a->fullname},
 
-This is a notification that your payment has expired.
+This is a notification that your payment has expired soon.
 «{$a->module}»
 {$a->url}
 ';
