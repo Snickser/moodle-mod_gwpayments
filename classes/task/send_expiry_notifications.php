@@ -51,26 +51,27 @@ class send_expiry_notifications extends \core\task\scheduled_task {
 
         $ctime = time();
 
-	$uds = $DB->get_records_sql('SELECT id,gwpaymentsid,userid,notified,timeexpire FROM {gwpayments_userdata}
-	    WHERE timeexpire>?', [ $ctime ]);
+	$uds = $DB->get_records_sql('SELECT * FROM {gwpayments_userdata}
+	    WHERE timeexpire<? AND notified<timeexpire', [ $ctime ]);
 
 	foreach ($uds as $data) {
-	    // Get expirynotify.
-	    $expirynotify = $DB->get_field('gwpayments', 'expirynotify', ['id' => $data->gwpaymentsid]);
-            if (!$expirynotify) {
+	    // Get instance info.
+	    if (!$gwp = $DB->get_record('gwpayments', ['id' => $data->gwpaymentsid], 'expirynotify,course,coursemodule,name,studentdisplayonpayments')) {
+	    	continue;
+	    };
+            if (!$gwp->expirynotify) {
                 continue;
             }
-
-mtrace( $data->timeexpire - $ctime - $expirynotify );
-mtrace( $data->timeexpire - $data->notified );
-
+/*
+    	    // Check periods.
     	    if (
-    		($data->timeexpire - $ctime - $expirynotify) > 0 ||
-    		($data->timeexpire - $data->notified) <= $expirynotify)
+    		($data->timeexpire - $ctime - $gwp->expirynotify) > 0 ||
+    		($data->timeexpire - $data->notified) <= $gwp->expirynotify)
     	    {
+    		mtrace($data->userid . ' ' . $data->timeexpire - $ctime - $gwp->expirynotify);
     		continue;
     	    }
-
+*/
 	    // Get user data.
             if (!$user = $DB->get_record('user', ['id' => $data->userid])) {
                 mtrace("$data->userid not found");
@@ -93,7 +94,13 @@ mtrace( $data->timeexpire - $data->notified );
             $a = (object)[
                 'firstname' => $user->firstname,
                 'fullname'  => fullname($user),
+                'module'  => format_string($gwp->name),
             ];
+            if ($gwp->studentdisplayonpayments == 1) {
+        	$a->url = new \moodle_url('/mod/gwpayments/view.php', ['id' => $gwp->coursemodule]);
+            } else {
+        	$a->url = new \moodle_url('/course/view.php', ['id' => $gwp->course]);
+    	    }
 
             $messagebody = get_string('expiredmessagebody', 'mod_gwpayments', $a);
 

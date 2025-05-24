@@ -27,10 +27,6 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['promo'] = 'Gateway Payments course module for Moodle';
-$string['promodesc'] = 'This plugin is written by Sebsoft Managed Hosting & Software Development
-(<a href=\'https://www.sebsoft.nl/\' target=\'_new\'>https://sebsoft.nl</a>).<br /><br />
-{$a}<br /><br />';
 $string['amount'] = 'Amount';
 $string['completiondetail:submit'] = 'Make a payment';
 $string['completionsubmit'] = 'Users must pay for this course module for it to be considered complete, creating the possibility to unlock other resources.';
@@ -122,7 +118,7 @@ $string['sendexpirynotificationstask'] = 'Send expiry notifications task';
 $string['expiredmessagesubject'] = 'Expiry notice';
 $string['expiredmessagebody'] = 'Dear {$a->fullname},
 
-This is a notification that your payment has expired soon.
-
-To renew access, go to {$a->payurl}
+This is a notification that your payment has expired.
+«{$a->module}»
+{$a->url}
 ';
