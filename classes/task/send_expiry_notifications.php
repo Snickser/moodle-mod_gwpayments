@@ -122,5 +122,6 @@ class send_expiry_notifications extends \core\task\scheduled_task {
 
 	}
 
+        mtrace('End.');
     }
 }
