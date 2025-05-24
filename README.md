@@ -13,6 +13,6 @@ Changes from original:
 + password (for check in payment modules)
 + expiration notice
 
-![изображение](https://github.com/user-attachments/assets/3a740a2d-4f74-4537-aba3-d354ff228efb)
+![изображение](https://github.com/user-attachments/assets/9d72e87a-07f4-4808-b9ce-7c473230bc4a)
 
 ![изображение](https://github.com/user-attachments/assets/d4ed1f33-1b74-43ee-962d-cfcfde4a0e34)
