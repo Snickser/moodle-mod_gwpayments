@@ -117,6 +117,10 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), ['optional' => true]);
         $mform->addHelpButton('costduration', 'costduration', 'mod_gwpayments');
 
+        $mform->addElement('advcheckbox', 'expirynotify', get_string('expirynotify','mod_gwpayments'));
+        $mform->setType('expirynotify', PARAM_INT);
+        $mform->disabledIf('expirynotify', 'costduration[enabled]', 'notchecked');
+
         $mform->addElement(
             'advcheckbox',
             'showduration',
@@ -124,9 +128,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         );
         $mform->setType('showduration', PARAM_INT);
         $mform->disabledIf('showduration', 'costduration[enabled]', 'notchecked');
-
-        $mform->addElement('advcheckbox', 'expirynotify', get_string('expirynotify','mod_gwpayments'));
-        $mform->disabledIf('expirynotify', 'costduration[enabled]', 'notchecked');
 
         $mform->addElement(
             'text',
