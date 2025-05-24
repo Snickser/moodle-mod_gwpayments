@@ -11,6 +11,7 @@ Changes from original:
 + add additional payment link 
 + extended hide module function
 + password (for check in payment modules)
++ expiration notice
 
 ![изображение](https://github.com/user-attachments/assets/3a740a2d-4f74-4537-aba3-d354ff228efb)
 
