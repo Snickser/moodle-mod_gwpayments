@@ -157,7 +157,7 @@ BTC 1GFTTPCgRTC8yYL1gU7wBZRfhRNRBdLZsq<br>
 ETH 0x1bce7aadef39d328d262569e6194febe597cb2c9<br>
 <iframe src="https://yoomoney.ru/quickpay/fundraise/button?billNumber=143H2JO3LLE.240720"
 width="330" height="50" frameborder="0" allowtransparency="true" scrolling="no"></iframe>';
-$string['expirynotify'] = 'Уведомлять об истечении срока разблокировки';
+$string['expirynotify'] = 'Уведомлять студента об истечении срока разблокировки';
 $string['expiredmessagesubject'] = 'Уведомление об истечении срока обучения';
 $string['expiredmessagebody'] = 'Здравствуйте {$a->fullname}!
 
