@@ -59,10 +59,6 @@ if ($ADMIN->fulltree) {
             get_string('cost', 'mod_gwpayments'),
             '', 10.00, PARAM_FLOAT, 4));
 
-//    $settings->add(new admin_setting_configtext('gwpayments/vat',
-//            get_string('vat', 'mod_gwpayments'),
-//            get_string('vat_help', 'mod_gwpayments'), 21, PARAM_INT, 4));
-
     if (!empty($currencies)) {
         $settings->add(new admin_setting_configselect('gwpayments/currency',
                 get_string('currency', 'mod_gwpayments'), '', 'RUB', $currencies));

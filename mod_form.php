@@ -91,23 +91,6 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         );
         $mform->setType('showcost', PARAM_INT);
 
-        // This is used for expiry determination.
-        $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), ['optional' => true]);
-        // $mform->setDefault('costduration', 86400);
-        $mform->addHelpButton('costduration', 'costduration', 'mod_gwpayments');
-
-        $mform->addElement(
-            'advcheckbox',
-            'showduration',
-            get_string('showduration', 'mod_gwpayments')
-        );
-        $mform->setType('showduration', PARAM_INT);
-        /*
-        $mform->addElement('text', 'vat', get_string('vat', 'mod_gwpayments'), array('size' => 4));
-        $mform->setType('vat', PARAM_RAW);
-        $mform->setDefault('vat', $config->vat);
-        $mform->addHelpButton('vat', 'vat', 'mod_gwpayments');
-        */
         $supportedcurrencies = \mod_gwpayments\local\helper::get_possible_currencies();
         $mform->addElement('select', 'currency', get_string('currency', 'mod_gwpayments'), $supportedcurrencies);
         $mform->setDefault('currency', $config->currency);
@@ -128,16 +111,23 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         $mform->addElement('select', 'accountid', get_string('paymentaccount', 'mod_gwpayments'), $accounts);
         $mform->setType('accountid', PARAM_INT);
         $mform->addHelpButton('accountid', 'paymentaccount', 'mod_gwpayments');
-        $mform->disabledIf('accountid', 'hidepaymentaccount', "neq", 0);
         $mform->addRule('accountid', null, 'required', null, 'client');
+
+        // This is used for expiry determination.
+        $mform->addElement('duration', 'costduration', get_string('costduration', 'mod_gwpayments'), ['optional' => true]);
+        $mform->addHelpButton('costduration', 'costduration', 'mod_gwpayments');
+
+        $mform->addElement('advcheckbox', 'expirynotify', get_string('expirynotify','mod_gwpayments'));
+        $mform->setType('expirynotify', PARAM_INT);
+        $mform->disabledIf('expirynotify', 'costduration[enabled]', 'notchecked');
 
         $mform->addElement(
             'advcheckbox',
-            'hidepaymentaccount',
-            get_string('hidepaymentaccount', 'mod_gwpayments')
+            'showduration',
+            get_string('showduration', 'mod_gwpayments')
         );
-        $mform->setType('hidepaymentaccount', PARAM_INT);
-        $mform->addHelpButton('hidepaymentaccount', 'hidepaymentaccount', 'mod_gwpayments');
+        $mform->setType('showduration', PARAM_INT);
+        $mform->disabledIf('showduration', 'costduration[enabled]', 'notchecked');
 
         $mform->addElement(
             'text',
@@ -147,6 +137,14 @@ class mod_gwpayments_mod_form extends moodleform_mod {
         );
         $mform->setType('addpaymentlink', PARAM_TEXT);
         $mform->addHelpButton('addpaymentlink', 'addpaymentlink', 'mod_gwpayments');
+
+        $mform->addElement(
+            'advcheckbox',
+            'hidepaymentaccount',
+            get_string('hidepaymentaccount', 'mod_gwpayments')
+        );
+        $mform->setType('hidepaymentaccount', PARAM_INT);
+        $mform->addHelpButton('hidepaymentaccount', 'hidepaymentaccount', 'mod_gwpayments');
 
         $mform->addElement(
             'passwordunmask',

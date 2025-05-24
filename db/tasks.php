@@ -29,14 +29,24 @@
  * */
 defined('MOODLE_INTERNAL') || die;
 
-$tasks = array(
-    array(
+$tasks = [
+    [
         'classname' => 'mod_gwpayments\task\defaulttasks',
         'blocking'  => 0,
         'minute'    => '*/10',
         'hour'      => '*',
         'day'       => '*',
         'dayofweek' => '*',
-        'month'     => '*'
-    ),
-);
+        'month'     => '*',
+    ],
+    [
+        'classname' => 'mod_gwpayments\task\send_expiry_notifications',
+        'blocking' => 0,
+        'minute' => '15',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+        'disabled' => 0,
+    ],
+];

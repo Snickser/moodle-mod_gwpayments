@@ -60,8 +60,16 @@ function xmldb_gwpayments_upgrade($oldversion) {
 
     if ($oldversion < 2021081601) {
         $table = new xmldb_table('gwpayments');
-        $field = new xmldb_field('disablepaymentonmisconfig', XMLDB_TYPE_INTEGER,
-                1, null, XMLDB_NOTNULL, null, '1', 'studentdisplayonpayments');
+        $field = new xmldb_field(
+            'disablepaymentonmisconfig',
+            XMLDB_TYPE_INTEGER,
+            1,
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '1',
+            'studentdisplayonpayments'
+        );
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -126,6 +134,21 @@ function xmldb_gwpayments_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 3025031800, 'mod', 'gwpayments');
     }
 
+    if ($oldversion < 3025052306) {
+        $table = new xmldb_table('gwpayments');
+        $field = new xmldb_field('expirynotify', XMLDB_TYPE_INTEGER, 18, null, null, null, '0', 'showduration');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $table = new xmldb_table('gwpayments_userdata');
+        $field = new xmldb_field('notified', XMLDB_TYPE_INTEGER, 18, null, null, null, '0', 'currency');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 3025052306, 'mod', 'gwpayments');
+    }
 
     return true;
 }

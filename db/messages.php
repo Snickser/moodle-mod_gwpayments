@@ -15,26 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Post installation and migration code.
+ * Defines message providers for self enrolments.
  *
- * This file replaces:
- *   - STATEMENTS section in db/install.xml
- *   - lib.php/modulename_install() post installation hook
- *   - partially defaults.php
- *
- * File         install.php
- * Encoding     UTF-8
- *
- * @package     mod_gwpayments
- *
- * @copyright   2021 Ing. R.J. van Dongen
- * @author      Ing. R.J. van Dongen <rogier@sebsoft.nl>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_gwpayments
+ * @copyright 2025 Alex Orlov <snickser@gmail.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Install script for mod_gwpayments
- */
-function xmldb_gwpayments_install() {
-    global $CFG;
-}
+defined('MOODLE_INTERNAL') || die();
+
+$messageproviders = [
+    'expiry_notification' => [],
+];
